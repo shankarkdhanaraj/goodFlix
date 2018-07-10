@@ -1,0 +1,35 @@
+{
+  "name": "goodflix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js",
+    "react-dev": "webpack -d --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goodFlix/goodFlix.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goodFlix/goodFlix/issues"
+  },
+  "homepage": "https://github.com/goodFlix/goodFlix#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.2.2",
+    "node": "^10.6.0",
+    "path": "^0.12.7",
+    "react": "^16.4.1"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^2.2.1"
+  }
+}
