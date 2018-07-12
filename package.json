@@ -23,6 +23,7 @@
   "dependencies": {
     "css-loader": "^1.0.0",
     "express": "^4.16.3",
+    "file-loader": "^1.1.11",
     "mongoose": "^5.2.2",
     "node": "^10.6.0",
     "path": "^0.12.7",
@@ -30,7 +31,8 @@
     "react-dom": "^16.4.1",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react-less-loader": "^0.2.0",
-    "style-loader": "^0.21.0"
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
