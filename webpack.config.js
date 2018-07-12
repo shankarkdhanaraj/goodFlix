@@ -10,20 +10,70 @@ module.exports = {
     filename: 'bundle.js'
   },
   module : {
-
-    loaders : [
-      {
-        test : /\.jsx?/,
-        include : SRC_DIR,
-        loader : 'babel-loader',
-        query: {
-          presets: ['react', 'es2015']
-        }
-      },
-      {
-        test: /\.css?$/,
-        loaders: [ 'style-loader', 'css-loader' ]
+  rules: [{
+    test: /\.jsx?/,
+    exclude: /node_modules/,
+    include :SRC_DIR,
+    use: [{
+      loader: 'semantic-ui-react-less-loader'
+    }, {
+      loader: 'babel-loader',
+      options: {
+        babelrc: false,
+        presets: [
+          'es2015',
+          'react'
+        ]
       }
-    ]
+    }]
+  },
+  {
+    test: /\.css?$/,
+    loaders: [ 'style-loader', 'css-loader' ]
+  },
+  // "url" loader works like "file" loader except that it embeds assets
+  // smaller than specified limit in bytes as data URLs to avoid requests.
+  // A missing `test` is equivalent to a match.
+  {
+    test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+    loader: require.resolve('url-loader'),
+    options: {
+      limit: 10000,
+      name: 'static/media/[name].[hash:8].[ext]',
+    },
+  },
+  // "file" loader makes sure assets end up in the `build` folder.
+  // When you `import` an asset, you get its filename.
+  {
+    test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
+    loader: require.resolve('file-loader'),
+    options: {
+      name: 'static/media/[name].[hash:8].[ext]',
+    },
+  }]
+
+
+    // loaders : [
+    //   {
+    //     test : /\.jsx?/,
+    //     include: [/node_modules[\/\\]semantic-ui-react/, SRC_DIR],
+    //     loaders: ['babel-loader?presets[]=react, presets[]=es2015', 'semantic-ui-react-less-loader']
+
+    //     // loader : 'babel-loader',
+    //     // query: {
+    //     //   presets: ['react', 'es2015']
+    //     // }
+    //   },
+    //   {
+    //     test: /\.css?$/,
+    //     loaders: [ 'style-loader', 'css-loader' ]
+    //   }
+    // ]
   }
+  // resolve: {
+  //      extensions: ['', '.js', '.jsx', '.css'],
+  //      modulesDirectories: [
+  //        'node_modules'
+  //      ]
+  // }
 };
