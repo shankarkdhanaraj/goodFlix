@@ -10,20 +10,50 @@ module.exports = {
     filename: 'bundle.js'
   },
   module : {
-
-    loaders : [
-      {
-        test : /\.jsx?/,
-        include : SRC_DIR,
-        loader : 'babel-loader',
-        query: {
-          presets: ['react', 'es2015']
-        }
-      },
-      {
-        test: /\.css?$/,
-        loaders: [ 'style-loader', 'css-loader' ]
+  rules: [{
+    test: /\.jsx?/,
+    exclude: /node_modules/,
+    include :SRC_DIR,
+    use: [{
+      loader: 'semantic-ui-react-less-loader'
+    }, {
+      loader: 'babel-loader',
+      options: {
+        babelrc: false,
+        presets: [
+          'es2015',
+          'react'
+        ]
       }
-    ]
+    }]
+  },
+  {
+    test: /\.css?$/,
+    loaders: [ 'style-loader', 'css-loader' ]
+  }]
+
+
+    // loaders : [
+    //   {
+    //     test : /\.jsx?/,
+    //     include: [/node_modules[\/\\]semantic-ui-react/, SRC_DIR],
+    //     loaders: ['babel-loader?presets[]=react, presets[]=es2015', 'semantic-ui-react-less-loader']
+
+    //     // loader : 'babel-loader',
+    //     // query: {
+    //     //   presets: ['react', 'es2015']
+    //     // }
+    //   },
+    //   {
+    //     test: /\.css?$/,
+    //     loaders: [ 'style-loader', 'css-loader' ]
+    //   }
+    // ]
   }
+  // resolve: {
+  //      extensions: ['', '.js', '.jsx', '.css'],
+  //      modulesDirectories: [
+  //        'node_modules'
+  //      ]
+  // }
 };
