@@ -7,7 +7,16 @@ import 'semantic-ui-css/semantic.min.css';
 class App extends React.Component {
 
 constructor(props) {
+<<<<<<< HEAD
 super(props);
+=======
+  super(props);
+
+  this.state = {
+    userName: '',
+    isLoggedIn: true
+  }
+>>>>>>> modified database for heroku
 
 }
 
