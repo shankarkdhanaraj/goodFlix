@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Button } from 'semantic-ui-react';
 import Title from './components/Title.jsx'
 import NavBar from './components/NavBar.jsx';
+import Movie from './components/Movie.jsx';
 import 'semantic-ui-css/semantic.min.css';
 
 class App extends React.Component {
@@ -28,6 +29,7 @@ return (
     <p>Testing automatic deploys</p>
     <p> hello again </p>
     <p> Testing React </p>
+    <Movie/>
   </div>
   );
 }
