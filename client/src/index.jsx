@@ -23,12 +23,6 @@ return (
   <div>
     <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>
     <NavBar/>
-    <h4>The only way to find your next movie!!!</h4>
-    <Button primary>Primary</Button>
-    <h6>Brought to you by hello-world of RPT07</h6>
-    <p>Testing automatic deploys</p>
-    <p> hello again </p>
-    <p> Testing React </p>
     <Movie/>
   </div>
   );
