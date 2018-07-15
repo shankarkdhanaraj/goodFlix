@@ -6,6 +6,9 @@ import NavBar from './components/NavBar.jsx';
 import Movie from './components/Movie.jsx';
 import WatcherHome from './components/WatcherHome.jsx';
 import 'semantic-ui-css/semantic.min.css';
+import { Container, Divider, Grid, Header, Image } from 'semantic-ui-react'
+import Movies from './components/Movies.jsx'
+
 
 class App extends React.Component {
 
@@ -24,8 +27,9 @@ class App extends React.Component {
       <div>
         <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>
         <NavBar/>
-{/*        <Movie/>*/}
-        <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn}/>
+         {/*<Movie/>*/}
+        {/*<WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn}/>*/}
+        <Movies/>
       </div>
     );
   }

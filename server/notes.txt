@@ -1,0 +1,51 @@
+
+
+
+ 1. clicking on 'sign in' button --> GET request to '/users' --> mongo query to retrieve that particular user from users table 
+
+ 		input : username,password 
+
+
+ 2. clicking on search button --> should send a GET request to '/movies' --> mongo query to retrieve (10) movies from API
+
+ 		input : search query 
+ 		
+ 		API : https://ee.iva-api.com/api/Entertainment/Search/?ProgramTypes=Movie&Title=fight&subscription-Key=8e97e89696b241678e66bdd004c7abd3
+
+ 		Output : Title, Year , Original Language , Runtime , Iva Rating , Official Site Url 
+
+
+ 3. clicking on movie name in homepage --> GET request to '/'  --> mongo query to retrieve details about that particular movie from API 
+
+ 		input : movie name 
+
+ 		API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
+
+ 		Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating 
+
+ 4. clicking on 'Add to Watchlist' near a movie ---> POST request to '/favorites' --> mongo query to add that movie onto our 	favorites table 
+
+ 		input : movie name 
+
+ 		action : save movie object to favorites table
+
+ 5 . clicking on 'Mark as watched' near a movie --> POST request to '/watched' --> mongo query to add that movie to "Recently Watched" table 
+
+ 		input : movie name 
+
+ 		action : save in Recently Watched table 
+
+ 6. clicking on register button --> POST request to '/watchers' --> mongo query to create a new watcher in db 
+
+ 		input : username, password 
+
+ 		action : add new user to watchers table
+
+ 7. clicking on a watcher in watchers tab --> GET request to '/watchers'  --> mongo query to retrieve that user's profile and display it on the right 
+
+ 		input : username 
+
+ 		action : retrieve user's information from user table
+
+ 8. clicking on Heart near a watcher in watchers tab --> POST request to '/following' --> mongo query to add that watcher onto our "following" table 
+
