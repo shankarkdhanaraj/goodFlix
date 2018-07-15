@@ -1,7 +1,7 @@
-import React from 'react'
-import { Container, Divider, Grid, Header, Image } from 'semantic-ui-react'
-import Item from './Item.jsx'
-import { Card, Icon } from 'semantic-ui-react'
+import React from 'react';
+import { Container, Divider, Grid, Header, Image } from 'semantic-ui-react';
+import Item from './Item.jsx';
+import { Card, Icon } from 'semantic-ui-react';
 import WatchList from './WatchList.jsx';
 
 const InlineStyle = () => (

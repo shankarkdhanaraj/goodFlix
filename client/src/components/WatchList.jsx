@@ -7,7 +7,7 @@ export default class WatchList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: ['Fight Club', 'Tinker Bell', 'Mullholand Drive', 'Dark Crystal', 'The last Unicorn']
+      list: this.props.list
     };
 
     this.removeFromWatchlist = this.removeFromWatchlist.bind(this);
@@ -29,7 +29,7 @@ export default class WatchList extends React.Component {
     return (
       <div>
         <h3>Watch List</h3>
-        <List>
+        <List celled>
           {listItems}
         </List>
       </div>
