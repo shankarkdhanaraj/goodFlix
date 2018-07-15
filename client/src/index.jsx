@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
+import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import Title from './components/Title.jsx'
 import NavBar from './components/NavBar.jsx';
 import Movie from './components/Movie.jsx';
 import WatcherHome from './components/WatcherHome.jsx';
-import 'semantic-ui-css/semantic.min.css';
-import { Container, Divider, Grid, Header, Image } from 'semantic-ui-react'
 import Movies from './components/Movies.jsx'
+import MyMovies from './components/MyMovies.jsx'
 
 
 class App extends React.Component {
@@ -17,19 +17,52 @@ class App extends React.Component {
 
     this.state = {
       userName: '',
-      isLoggedIn: false
-    }
+      isLoggedIn: false,
+      currentPage: 'Home' //'Home', 'Watchers', 'My Movies'
+    };
+
+    this.changeCurrentPage = this.changeCurrentPage.bind(this);
 
   }
 
+  changeCurrentPage(page) {
+    this.setState({currentPage: page});
+  }
+
   render() {
+    let activePage;
+    if ( this.state.currentPage === 'Home') {
+      activePage = <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+    } else if ( this.state.currentPage === 'My Movies' ) {
+      activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+    } else {
+      activePage = <div> Under Construction </div>;
+    }
     return (
       <div>
-        <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>
-        <NavBar/>
-         {/*<Movie/>*/}
-        {/*<WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn}/>*/}
-        <Movies/>
+      <Grid>
+        <Grid.Row >
+          <Grid.Column>
+          <Segment>
+            <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>
+          </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row >
+          <Grid.Column>
+          <Segment>
+            <NavBar changePage={this.changeCurrentPage}/>
+          </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row >
+          <Grid.Column>
+          <Segment>
+            {activePage}
+          </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       </div>
     );
   }

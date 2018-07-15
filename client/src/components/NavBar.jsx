@@ -4,12 +4,13 @@ import { Input, Menu } from 'semantic-ui-react';
 export default class MenuExampleSecondary extends Component {
   constructor(){
     super()
-  this.state = { activeItem: 'home' }
+  this.state = { activeItem: 'Home' }
   this.handleItemClick = this.handleItemClick.bind(this);
 }
 
   handleItemClick(e, { name }) {
     this.setState({ activeItem: name })
+    this.props.changePage(name);
   }
 
   render() {
@@ -17,7 +18,7 @@ export default class MenuExampleSecondary extends Component {
 
     return (
       <Menu secondary>
-        <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+        <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
         <Menu.Item
           name='Watchers'
           active={activeItem === 'Watchers'}
