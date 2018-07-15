@@ -29,6 +29,7 @@
     "path": "^0.12.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-split-pane": "^0.1.82",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react-less-loader": "^0.2.0",
     "style-loader": "^0.21.0",
