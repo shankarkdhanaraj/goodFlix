@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Input, Menu } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Input, Menu } from 'semantic-ui-react';
 
 export default class MenuExampleSecondary extends Component {
   constructor(){
@@ -41,4 +41,4 @@ export default class MenuExampleSecondary extends Component {
       </Menu>
     )
   }
-}
+};
