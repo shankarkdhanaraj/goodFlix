@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import 'semantic-ui-css/semantic.min.css';
 import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import Title from './components/Title.jsx'
@@ -31,6 +32,17 @@ class App extends React.Component {
     this.setState({currentPage: page});
   }
 
+  search(term){
+    
+    $.ajax({
+      url:'/movies',
+      type:'POST',
+      data:{search:term}
+    }).done(function(data){
+      console.log('data has been posted from search',data);
+    })
+
+  }
   render() {
     let activePage;
     if ( this.state.isLoggedIn ) {
@@ -57,7 +69,8 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-            <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage}/>
+
+          <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage} search={this.search}/>
           </Segment>
           </Grid.Column>
         </Grid.Row>

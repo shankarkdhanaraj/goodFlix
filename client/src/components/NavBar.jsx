@@ -4,13 +4,28 @@ import { Input, Menu } from 'semantic-ui-react';
 export default class MenuExampleSecondary extends Component {
   constructor(){
     super()
-  this.state = { activeItem: 'Home' }
+  this.state = { activeItem: 'Home' ,
+                 term : '' }
   this.handleItemClick = this.handleItemClick.bind(this);
+  this.search = this.search.bind(this);
+  this.handleChange = this.handleChange.bind(this);
 }
 
   handleItemClick(e, { name }) {
     this.setState({ activeItem: name })
     this.props.changePage(name);
+  }
+
+
+  handleChange(e){
+    this.setState({
+      term:e.target.value
+    })
+  }
+
+  search(){
+    var searchterm = this.state.term; 
+    this.props.search(searchterm);
   }
 
   render() {
@@ -30,9 +45,8 @@ export default class MenuExampleSecondary extends Component {
           {watchers}
           {myMovies}
           <Menu.Menu position='right'>
-            <Menu.Item>
-              <Input icon='search' placeholder='Search for movies...' />
-            </Menu.Item>
+          <input type="text" value={this.state.term} onChange={this.handleChange}/>
+          <button onClick={this.search}>Go</button>
 {/*            <Menu.Item name='logout' active={activeItem === 'logout'} onClick={this.handleItemClick} />;
 */}         {logout}
           </Menu.Menu>
@@ -42,9 +56,8 @@ export default class MenuExampleSecondary extends Component {
         <Menu secondary pointing>
           <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
           <Menu.Menu position='right'>
-            <Menu.Item>
-              <Input icon='search' placeholder='Search for movies...' />
-            </Menu.Item>
+          <input type="text" value={this.state.term} onChange={this.handleChange}/>
+          <button onClick={this.search}>Go</button>
           </Menu.Menu>
         </Menu> ;
     }
