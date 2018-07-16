@@ -2,7 +2,7 @@
 	//use npm request module to send a request to yummly api 
 //export that function
 
-//const request = require('request');
+const request = require('request');
 const config = require('../config.js');
 
 
