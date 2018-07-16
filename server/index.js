@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({
 
 //dbHelpers.addUser(userName, password)
 //dbHelpers.handleLogin(userName, password)
-dbHelpers.getUser('test', (user) => console.log(user))
 
 // GET landing page
 app.get('/', function(req, res) {
@@ -74,7 +73,7 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-
+  //dbHelpers.getUser(userName, callback)  
 });
 
 
