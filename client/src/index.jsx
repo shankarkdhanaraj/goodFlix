@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       userName: '',
-      isLoggedIn: false,
+      isLoggedIn: true,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true
     };
@@ -69,7 +69,6 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-
           <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage} search={this.search}/>
           </Segment>
           </Grid.Column>

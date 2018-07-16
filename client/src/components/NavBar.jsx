@@ -62,5 +62,32 @@ export default class MenuExampleSecondary extends Component {
         </Menu> ;
     }
     return navBar;
+
+    // const { activeItem } = this.state
+
+    // return (
+    //   <Menu secondary>
+    //     <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
+    //     <Menu.Item
+    //       name='Watchers'
+    //       active={activeItem === 'Watchers'}
+    //       onClick={this.handleItemClick}
+    //     />
+    //     <Menu.Item
+    //       name='My Movies'
+    //       active={activeItem === 'My Movies'}
+    //       onClick={this.handleItemClick}
+    //     />
+    //     <Menu.Menu position='right'>
+    //       <input type="text" value={this.state.term} onChange={this.handleChange}/>
+    //       <button onClick={this.search}>Go</button>
+    //       <Menu.Item
+    //         name='logout'
+    //         active={activeItem === 'logout'}
+    //         onClick={this.handleItemClick}
+    //       />
+    //     </Menu.Menu>
+    //   </Menu>
+    // )
   }
 };
