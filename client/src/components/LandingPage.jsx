@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import Login from './Login.jsx'
+import Signup from './Signup.jsx'
 import TopMoviesList from './TopMoviesList.jsx';
 
 
@@ -10,13 +11,20 @@ export default class LandingPage extends React.Component {
     super(props);
 
     this.state = {
+      isLogin: true,
       topMoviesList: ['Matrix', 'Fight Club', 'Thor', 'Iron Man', 'Avengers', 'Lord of the Rings: Fellowship of the Ring', 'Die Hard', 'Lethal Weapon', 'Citizen Kane']
-    }
+    };
+
+    this.change = this.change.bind(this);
 
   }
 
+  change() {
+    this.setState({isLogin: !this.state.isLogin})
+  }
+
   render() {
-    let loginSignup = this.props.isLogin ? <Login/> : <Signup/>
+    let loginSignup = this.state.isLogin ? <Login changeToSignup={this.change} /> : <Signup changeToLogin={this.change} />;
     return (
       <Grid columns={2} divided>
         <Grid.Row stretched>
