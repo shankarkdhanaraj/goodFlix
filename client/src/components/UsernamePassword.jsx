@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form, Icon, Button } from 'semantic-ui-react';
 
 export default class UsernamePassword extends React.Component {
   constructor(props) {
@@ -8,21 +9,21 @@ export default class UsernamePassword extends React.Component {
   render() {
 
     return (
-      <form class="ui equal width form">
-        <div class="field">
+      <Form>
+        <Form.Field>
           <div class="ui left icon input">
             <i class="user icon"></i>
             <input type="text" name="username" placeholder="Username" />
           </div>
-        </div>
-        <div class="field">
+        </Form.Field>
+        <Form.Field>
           <div class="ui left icon input">
             <i class="lock icon"></i>
             <input type="password" name="password" placeholder="Password" />
           </div>
-        </div>
-        <button class="ui button" type="submit">Submit</button>
-      </form>
+        </Form.Field>
+        <Button type='submit' onClick={ () =>this.props.onSubmit()}>Submit</Button>
+      </Form>
     );
   }
 };
