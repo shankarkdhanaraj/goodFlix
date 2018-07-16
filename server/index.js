@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 
 //dbHelpers.addUser(userName, password)
 //dbHelpers.handleLogin(userName, password)
-
+dbHelpers.getUser('test', (user) => console.log(user))
 
 // GET landing page
 app.get('/', function(req, res) {
@@ -26,6 +26,7 @@ app.get('/', function(req, res) {
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
+  //use dbHelpers.getUser(userName, cb) cb returns obect {watchlist: array, recentlyWatched: array, favorites: array, following: array, userName: string}
 
 });
 
