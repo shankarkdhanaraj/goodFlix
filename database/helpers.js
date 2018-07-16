@@ -52,7 +52,15 @@ let isUserinDb = (userName, password, cb) => {
   })
 }
 
+let getUser = (userName, cb) => {
+  User.find({userName: userName}, function(err, result) {
+    if (err) {console.log(err)}
+    cb(result[0]);
+  })
+}
+
 module.exports = {
   addUser: addUser,
-  handleLogin: handleLogin
+  handleLogin: handleLogin,
+  getUser: getUser
 }
