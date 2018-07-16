@@ -8,20 +8,20 @@ export default class UsernamePassword extends React.Component {
   render() {
 
     return (
-      <form class="ui equal width form">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
+      <form className="ui equal width form">
+        <div className="field">
+          <div className="ui left icon input">
+            <i className="user icon"></i>
             <input type="text" name="username" placeholder="Username" />
           </div>
         </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
+        <div className="field">
+          <div className="ui left icon input">
+            <i className="lock icon"></i>
             <input type="password" name="password" placeholder="Password" />
           </div>
         </div>
-        <button class="ui button" type="submit">Submit</button>
+        <button className="ui button" type="submit">Submit</button>
       </form>
     );
   }
