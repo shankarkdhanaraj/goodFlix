@@ -28,7 +28,7 @@ export default class FavoritesList extends React.Component {
     });
     return (
       <div>
-        <h3>Watch List</h3>
+        <h3>Favorites List</h3>
         <List celled>
           {listItems}
         </List>

@@ -8,6 +8,7 @@ import Movie from './components/Movie.jsx';
 import WatcherHome from './components/WatcherHome.jsx';
 import Movies from './components/Movies.jsx'
 import MyMovies from './components/MyMovies.jsx'
+import LandingPage from './components/LandingPage.jsx'
 
 
 class App extends React.Component {
@@ -18,7 +19,8 @@ class App extends React.Component {
     this.state = {
       userName: '',
       isLoggedIn: false,
-      currentPage: 'Home' //'Home', 'Watchers', 'My Movies'
+      currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
+      isLogin: true
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
@@ -31,15 +33,19 @@ class App extends React.Component {
 
   render() {
     let activePage;
-    if ( this.state.currentPage === 'Home') {
-      activePage = <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
-    } else if ( this.state.currentPage === 'My Movies' ) {
-      activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+    if ( this.state.isLoggedIn ) {
+      if ( this.state.currentPage === 'Home') {
+        activePage = <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+      } else if ( this.state.currentPage === 'My Movies' ) {
+        activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+      } else {
+        activePage = <div> Under Construction </div>;
+      }
     } else {
-      activePage = <div> Under Construction </div>;
+      activePage = <LandingPage isLogin={this.state.isLogin} />;
     }
+
     return (
-      <div>
       <Grid>
         <Grid.Row >
           <Grid.Column>
@@ -51,7 +57,7 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-            <NavBar changePage={this.changeCurrentPage}/>
+            <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage}/>
           </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -63,7 +69,6 @@ class App extends React.Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      </div>
     );
   }
 
