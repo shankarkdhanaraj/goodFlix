@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 const PORT = process.env.PORT || 3000;
 var dbHelpers = require('../database/helpers.js');
+var apihelper = require('../api/api.js')
 var app = express();
 
 app.use(session({
@@ -28,6 +29,7 @@ app.get('/', function(req, res) {
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
+
   let username = req.query.username;
   let password = req.query.password;
   let logResult = dbHelpers.handleLogin(username, password);
@@ -48,12 +50,29 @@ app.get('/user/home', function(req, res) {
     res.send(`unknown error logging in user ${username}`);
   }
 
+  //use dbHelpers.getUser(userName, cb) cb returns obect {watchlist: array, recentlyWatched: array, favorites: array, following: array, userName: string}
+
+
 });
 
-//clicking on search button --> should send a GET request to '/movies' --> mongo query to retrieve (10) movies from API input : search query
+//clicking on search button --> should send a POST request to '/movies' --> mongo query to retrieve (10) movies from API input : search query
 // API : https://ee.iva-api.com/api/Entertainment/Search/?ProgramTypes=Movie&Title=fight&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 //Output : Title, Year , Original Language , Runtime , Iva Rating , Official Site Url
-app.get('/movies', function(req, res) {
+app.post('/movies', function(req, res) {
+
+	console.log('in post',req.body.search);
+
+	var moviename = req.body.search;
+
+	apihelper.getMoviesByName(moviename ,function(err,result){
+		if(err){
+			console.log('error in post / movies');
+			res.send(err);
+		}else{
+			console.log('res in post / movies');
+			res.send(result);
+		}
+	})
 
 });
 
@@ -91,7 +110,7 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-
+  //dbHelpers.getUser(userName, callback)
 });
 
 
