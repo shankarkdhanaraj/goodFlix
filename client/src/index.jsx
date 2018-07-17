@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       userName: '',
-      isLoggedIn: true,
+      isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true
     };
@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   search(term){
-    
+
     $.ajax({
       url:'/movies',
       type:'POST',
