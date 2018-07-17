@@ -22,7 +22,6 @@ app.get('/', function(req, res) {
 
 });
 
-dbHelpers.getMovieId('Star Wars', (x) => console.log(x))
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
@@ -80,14 +79,12 @@ app.post('/movies', function(req, res) {
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
 app.get('/movie', function(req, res) {
   let title = req.body.title;
-  dbHelpers.getMovieInfoAPI(title, (result) => {
+  dbHelpers.getDbMovieInfo(title, (movie) => {
   	//if movie already in database
-  	if (result.length == 1) {
+  	if (movie.length == 1) {
   	  //get movie and send
-  	  dbHelpers.getDbMovieInfo(title, (film) => {
-  	  	res.send(film);
-  	  })
-  	  //if movie not in DB..
+  	  res.send(movie);
+  	//if movie not in DB..
   	} else {
   	  //get movie info from API...
   	  dbHelpers.getMovieInfoAPI(title, (movie) => {
