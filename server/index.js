@@ -13,9 +13,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-dbHelpers.addUser('test1', 'test1', (x) => console.log(x))
-//dbHelpers.getMovieInfoAPI('fight club', (res) => {})
-
 // GET landing page
 app.get('/', function(req, res) {
 
