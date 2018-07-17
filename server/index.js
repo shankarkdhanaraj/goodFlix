@@ -1,10 +1,20 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 const PORT = process.env.PORT || 3000;
 var dbHelpers = require('../database/helpers.js');
 var app = express();
 
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: false
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/dist'));
 
+var currentSession;
 //dbHelpers.addUser(userName, password)
 //dbHelpers.handleLogin(userName, password)
 
@@ -18,6 +28,25 @@ app.get('/', function(req, res) {
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
+  let username = req.query.username;
+  let password = req.query.password;
+  let logResult = dbHelpers.handleLogin(username, password);
+  // console.log('Origina URL for GET uer/home. ', req.originalUrl);
+  // console.log('Request query for GET uer/home. ', req.query);
+  console.log(`received GET user/home request. user and passowrd:- `, username + '  ' + password);
+
+  if ( logResult === 0 ) {
+    req.session.username = username;
+    req.session.save();
+    currentSession = req.session;
+    res.send(`user ${username} logged in successfully`);
+  } else if ( logResult === 1 ) {
+    res.send(`user ${username} already exists`);
+  } else if ( logResult === 2 ) {
+    res.send(`user ${username} and password doesn't match`);
+  } else {
+    res.send(`unknown error logging in user ${username}`);
+  }
 
 });
 
@@ -43,6 +72,17 @@ app.get('/movie', function(req, res) {
 // input : username, password
 // action : add new user to watchers table
 app.post('/users', function(req, res) {
+  let username = req.body.username;
+  let password = req.body.password;
+  let sigupResult = dbHelpers.addUser(username, password);
+  console.log(`received POST users request. request body - `, username + '  ' + password);
+  if ( sigupResult === 0 ) {
+    res.send(`user ${username} added successfully`);
+  } else if ( sigupResult === 1 ) {
+    res.send(`user ${username} already exists`);
+  } else {
+    res.send(`unknown error signing up user ${username}`);
+  }
 
 });
 
