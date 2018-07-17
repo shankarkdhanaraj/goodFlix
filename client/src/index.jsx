@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.state = {
       userName: '',
-      isLoggedIn: false,
+      isLoggedIn: true,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true
     };

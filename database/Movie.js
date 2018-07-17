@@ -6,8 +6,8 @@ mongoose.Promise = global.Promise;  //not sure if we need this??
 const MovieSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
-  rating: {type: Number, default: null},
-  originalReleaseDate: Number,
+  rating: {type: String, default: null},
+  originalReleaseDate: String,
   year: Number,
   contributors: Array,
   descriptions: Array,
