@@ -20,6 +20,8 @@ var currentSession;
 //dbHelpers.handleLogin(userName, password)
 
 
+//dbHelpers.getMovieInfoAPI('Platoon', (movie) => dbHelpers.saveMovie(movie, (movie) => dbHelpers.getDbMovieInfo((movie), (movie) => console.log(movie))))
+
 // GET landing page
 app.get('/', function(req, res) {
 

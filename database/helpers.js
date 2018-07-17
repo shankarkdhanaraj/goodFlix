@@ -28,7 +28,6 @@ let addUser = function(userName, password, cb) {
 
 let handleLogin = function(userName, password, cb) {
   isUserinDb(userName, password, function(results) {
-    console.log(results)
     //if user doesn't exist
     if (results.length == 0) {
       cb(1);
@@ -51,9 +50,9 @@ let isUserinDb = (userName, password, cb) => {
   })
 }
 
-let isMovieinDb = (title, cb) => {
+let getDbMovieInfo = (title, cb) => {
   Movie.find({title: title}, function(err, result) {
-    if (err) {return err};
+    if (err) {console.log(err)};
     cb(result);
   })
 }
@@ -84,23 +83,25 @@ let getMovieInfoAPI = (title, callback) => {
     } else{
       console.log('IVA Request SUCCESS');
       //return the only or closest matched movie
-      saveMovie(response.body.ProgramMatches[0]);
       callback(response.body.ProgramMatches[0]);
     }
   })
 }
 
-let saveMovie = (movie) => {
-  isMovieinDb({title: movie.Title}, function(err, result) {
+let saveMovie = (movie, cb) => {
+  console.log(movie.Title)
+  getDbMovieInfo(movie.Title, (result) => {
     //if movie already in database do nothing;
+    console.log('length', result.length)
     if (result.length == 1) {
-      console.log(result)
-      return;
+      console.log( movie.Title, 'already saved');
+      cb(movie.Title)
       //add movie to database
     } else {
-      let movie = new Movie({
+      let newMovie = new Movie({
         _id: new mongoose.Types.ObjectId(),
         title: movie.Title,
+        rating: movie.Releases[0].Certification,
         originalReleaseDate: movie.OriginalReleaseDate,
         year: movie.Year,
         contributors: movie.Contributors,
@@ -108,18 +109,21 @@ let saveMovie = (movie) => {
         images: movie.Images,
         ivaRating: movie.IvaRating
       })
-      movie.save(function(err) {
-        if (err) return handleError(err);
-        console.log(movie.Title, 'saved')
+      newMovie.save(function(err) {
+        if (err) console.log(err);
+        console.log(movie.Title, 'saved');
+        cb(movie.Title)
       })
     }
   })
 }
 
+
 module.exports = {
   addUser: addUser,
   handleLogin: handleLogin,
   getUser: getUser,
+  getDbMovieInfo: getDbMovieInfo,
   getMovieInfoAPI: getMovieInfoAPI,
   saveMovie: saveMovie
 }
