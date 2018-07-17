@@ -1,17 +1,24 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 const PORT = process.env.PORT || 3000;
 var dbHelpers = require('../database/helpers.js');
 var apihelper = require('../api/api.js')
 var app = express();
 
-const bodyParser = require('body-parser');
-
-
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: false
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/dist'));
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+var currentSession;
+//dbHelpers.addUser(userName, password)
+//dbHelpers.handleLogin(userName, password)
+
 
 // GET landing page
 app.get('/', function(req, res) {
@@ -22,7 +29,29 @@ app.get('/', function(req, res) {
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
+
+  let username = req.query.username;
+  let password = req.query.password;
+  let logResult = dbHelpers.handleLogin(username, password);
+  // console.log('Origina URL for GET uer/home. ', req.originalUrl);
+  // console.log('Request query for GET uer/home. ', req.query);
+  console.log(`received GET user/home request. user and passowrd:- `, username + '  ' + password);
+
+  if ( logResult === 0 ) {
+    req.session.username = username;
+    req.session.save();
+    currentSession = req.session;
+    res.send(`user ${username} logged in successfully`);
+  } else if ( logResult === 1 ) {
+    res.send(`user ${username} already exists`);
+  } else if ( logResult === 2 ) {
+    res.send(`user ${username} and password doesn't match`);
+  } else {
+    res.send(`unknown error logging in user ${username}`);
+  }
+
   //use dbHelpers.getUser(userName, cb) cb returns obect {watchlist: array, recentlyWatched: array, favorites: array, following: array, userName: string}
+
 
 });
 
@@ -30,9 +59,9 @@ app.get('/user/home', function(req, res) {
 // API : https://ee.iva-api.com/api/Entertainment/Search/?ProgramTypes=Movie&Title=fight&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 //Output : Title, Year , Original Language , Runtime , Iva Rating , Official Site Url
 app.post('/movies', function(req, res) {
-	
-	console.log('in post',req.body.search); 
- 
+
+	console.log('in post',req.body.search);
+
 	var moviename = req.body.search;
 
 	apihelper.getMoviesByName(moviename ,function(err,result){
@@ -62,6 +91,17 @@ app.get('/movie', function(req, res) {
 // input : username, password
 // action : add new user to watchers table
 app.post('/users', function(req, res) {
+  let username = req.body.username;
+  let password = req.body.password;
+  let sigupResult = dbHelpers.addUser(username, password);
+  console.log(`received POST users request. request body - `, username + '  ' + password);
+  if ( sigupResult === 0 ) {
+    res.send(`user ${username} added successfully`);
+  } else if ( sigupResult === 1 ) {
+    res.send(`user ${username} already exists`);
+  } else {
+    res.send(`unknown error signing up user ${username}`);
+  }
 
 });
 
@@ -70,7 +110,7 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-  //dbHelpers.getUser(userName, callback)  
+  //dbHelpers.getUser(userName, callback)
 });
 
 

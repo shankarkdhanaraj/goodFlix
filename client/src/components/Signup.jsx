@@ -11,7 +11,21 @@ export default class Signup extends React.Component {
   }
 
   signup(userPassword) {
-    alert(`Signing up...`);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'POST',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify(userPassword)
+    };
+
+    let url = `http://localhost:3000/users`;
+    fetch(url, options)
+      .then( (response) => response.text() )
+      .then( (value) => alert('value ' + value) )
+      .catch( (err) => console.log('Unknown error when signing up...', err.message));
   }
 
   gotoLogin() {
@@ -29,7 +43,7 @@ export default class Signup extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <UsernamePassword onSubmit={this.signup}/>
+            <UsernamePassword clickSubmit={this.signup}/>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

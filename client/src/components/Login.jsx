@@ -10,7 +10,29 @@ export default class Login extends React.Component {
   }
 
   login(userPassword) {
-    alert(`Logging...`);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      // params: {
+      //   username: userPassword.username,
+      //   password: userPassword.password
+      // }
+    };
+
+    let url = new URL(`http://localhost:3000/user/home`);
+    let params = {
+      username: userPassword.username,
+      password: userPassword.password
+    };
+    url.search = new URLSearchParams(params)
+    fetch(url, options)
+      .then( (response) => response.text() )
+      .then( (value) => alert('value ' + value) )
+      .catch( (err) => console.log('Unknown error when logging in...', err.message));
   }
 
   gotoSignup() {
@@ -28,7 +50,7 @@ export default class Login extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <UsernamePassword onSubmit={this.login}/>
+            <UsernamePassword clickSubmit={this.login}/>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
