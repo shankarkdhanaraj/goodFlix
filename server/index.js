@@ -16,18 +16,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/dist'));
 
 var currentSession;
-//dbHelpers.addUser(userName, password)
-//dbHelpers.handleLogin(userName, password)
-
-
-//dbHelpers.getMovieInfoAPI('Platoon', (movie) => dbHelpers.saveMovie(movie, (movie) => dbHelpers.getDbMovieInfo((movie), (movie) => console.log(movie))))
 
 // GET landing page
 app.get('/', function(req, res) {
 
 });
 
-
+dbHelpers.getMovieId('Star Wars', (x) => console.log(x))
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
@@ -84,6 +79,28 @@ app.post('/movies', function(req, res) {
 // API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
 app.get('/movie', function(req, res) {
+  let title = req.body.title;
+  dbHelpers.getMovieInfoAPI(title, (result) => {
+  	//if movie already in database
+  	if (result.length == 1) {
+  	  //get movie and send
+  	  dbHelpers.getDbMovieInfo(title, (film) => {
+  	  	res.send(film);
+  	  })
+  	  //if movie not in DB..
+  	} else {
+  	  //get movie info from API...
+  	  dbHelpers.getMovieInfoAPI(title, (movie) => {
+  	  	//save to DB
+        dbHelpers.saveMovie(movie, (flick) => {
+          //get info from database
+          dbHelpers.getDbMovieInfo(flick, (film) => {
+          	res.send(film);
+          })
+        })
+  	  })
+  	}
+  })
 
 });
 
@@ -112,7 +129,9 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-  //dbHelpers.getUser(userName, callback)
+  let userName = req.body.userName;
+  //get user info if in database
+  dbHelpers.getUser(userName, (result) => {res.send(result)})
 });
 
 

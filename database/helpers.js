@@ -118,6 +118,12 @@ let saveMovie = (movie, cb) => {
   })
 }
 
+let getMovieId = (title, cb) => {
+  getDbMovieInfo(title, (result) => {
+    cb(result[0]._id);
+  })
+}
+
 
 module.exports = {
   addUser: addUser,
@@ -125,5 +131,6 @@ module.exports = {
   getUser: getUser,
   getDbMovieInfo: getDbMovieInfo,
   getMovieInfoAPI: getMovieInfoAPI,
-  saveMovie: saveMovie
+  saveMovie: saveMovie,
+  getMovieId: getMovieId
 }
