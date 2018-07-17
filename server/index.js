@@ -13,9 +13,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//dbHelpers.addUser(userName, password)
-//dbHelpers.handleLogin(userName, password)
-
 // GET landing page
 app.get('/', function(req, res) {
 
