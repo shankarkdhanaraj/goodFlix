@@ -32,8 +32,8 @@ var currentSession;
 
 // GET landing page
 app.get('/logout', function(req, res) {
-  console.log('Logging out/Destroying session...');
-  console.log(`comparing sessions. Browser- ${req.session.id} |  Server- ${currentSession.id}`);
+  // console.log('Logging out/Destroying session...');
+  // console.log(`comparing sessions. Browser- ${req.session.id} |  Server- ${currentSession.id}`);
   req.session.destroy( (err) => {
     if ( err ) {
       console.log('Error destroying session...', err.message);
@@ -53,22 +53,22 @@ app.get('/user/home', function(req, res) {
   // let logResult = dbHelpers.handleLogin(username, password);
   // console.log('Origina URL for GET uer/home. ', req.originalUrl);
   // console.log('Request query for GET uer/home. ', req.query);
-  console.log(`received GET user/home request. user and passowrd:- `, username + '  ' + password);
+  // console.log(`received GET user/home request. user and passowrd:- `, username + '  ' + password);
   dbHelpers.handleLogin(username, password, (logResult) => {
     if ( logResult === 0 ) {
       req.session.regenerate(function(err) {
         req.session.user = username;
         req.session.save();
         currentSession = req.session;
-        console.log('session is...', currentSession);
-        console.log('req cookies is...', req.cookies);
-        console.log('req session cookies is...', req.session.cookie);
-        res.send(`user ${username} logged in successfully`);
+        // console.log('session is...', currentSession);
+        // console.log('req cookies is...', req.cookies);
+        // console.log('req session cookies is...', req.session.cookie);
+        res.send(`0`); //user logged in successfully
       });
     } else if ( logResult === 1 ) {
-      res.send(`user ${username} doesn't exists`);
+      res.send(`1`); //user doesn't exist
     } else if ( logResult === 2 ) {
-      res.send(`user ${username} and password doesn't match`);
+      res.send(`2`); //password doesn't match
     } else {
       res.send(`unknown error logging in user ${username}`);
     }
@@ -138,17 +138,17 @@ app.post('/users', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
   // let sigupResult = dbHelpers.addUser(username, password);
-  console.log(`received POST users request. request body - `, username + '  ' + password);
+  // console.log(`received POST users request. request body - `, username + '  ' + password);
   dbHelpers.addUser(username, password, (sigupResult) => {
     if ( sigupResult === 0 ) {
       req.session.regenerate(function(err) {
         req.session.user = username;
         req.session.save();
         currentSession = req.session;
-        res.send(`user ${username} added successfully`);
+        res.send(`0`); //user added successfully
       });
     } else if ( sigupResult === 1 ) {
-      res.send(`user ${username} already exists`);
+      res.send(`1`); //user already exists
     } else {
       res.send(`unknown error signing up user ${username}`);
     }

@@ -27,16 +27,23 @@ export default class Login extends React.Component {
     };
     url.search = new URLSearchParams(params)
     fetch(url, options)
-      .then( (response) => {
-        console.log('Session id is ...', document.cookie);
-        // return response.text();
-        return document.cookie;
+      .then( (response) => response.text() )
+      .then( (responseTxt) => {
+        if ( responseTxt === `0` ) {
+          // console.log('Session id is ...', document.cookie);
+          return document.cookie;
+        } else if ( responseTxt === `1` ) { //user doesn't exist
+          throw new Error(`User doesn't exist`);
+        } else if ( responseTxt === `2` ) {
+          throw new Error(`username and password doesn't match`);
+        } else {
+          throw new Error('Unknow error');
+        }
       })
       .then( (sessionId) => {
-        // alert('value ' + value);
         this.props.loginUser(params.username, sessionId);
       })
-      .catch( (err) => console.log('Unknown error when logging in...', err.message));
+      .catch( (err) => console.log('Error when logging in...', err.message));
   }
 
   gotoSignup() {
