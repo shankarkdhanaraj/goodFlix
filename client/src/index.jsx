@@ -18,13 +18,16 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      userName: '',
-      isLoggedIn: true,
+      userName: null,
+      isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
-      isLogin: true
+      isLogin: true,
+      sessionId: null
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
+    this.loginUser = this.loginUser.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
 
   }
 
@@ -43,6 +46,15 @@ class App extends React.Component {
     })
 
   }
+
+  loginUser(user, sessionId) {
+    this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false});
+  }
+
+  logoutUser() {
+    this.setState({sessionId: null, userName: null, isLoggedIn: false, isLogin: true});
+  }
+
   render() {
     let activePage;
     if ( this.state.isLoggedIn ) {
@@ -54,7 +66,7 @@ class App extends React.Component {
         activePage = <div> Under Construction </div>;
       }
     } else {
-      activePage = <LandingPage isLogin={this.state.isLogin} />;
+      activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
     }
 
     return (
@@ -69,7 +81,7 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-          <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage} search={this.search}/>
+          <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage} search={this.search} logoutUser={this.logoutUser} sessionId={this.state.sessionId}/>
           </Segment>
           </Grid.Column>
         </Grid.Row>

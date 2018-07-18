@@ -17,10 +17,7 @@ export default class Login extends React.Component {
       headers: headers,
       mode: 'cors',
       cache: 'default',
-      // params: {
-      //   username: userPassword.username,
-      //   password: userPassword.password
-      // }
+      credentials: 'include'
     };
 
     let url = new URL(`http://localhost:3000/user/home`);
@@ -30,8 +27,15 @@ export default class Login extends React.Component {
     };
     url.search = new URLSearchParams(params)
     fetch(url, options)
-      .then( (response) => response.text() )
-      .then( (value) => alert('value ' + value) )
+      .then( (response) => {
+        console.log('Session id is ...', document.cookie);
+        // return response.text();
+        return document.cookie;
+      })
+      .then( (sessionId) => {
+        // alert('value ' + value);
+        this.props.loginUser(params.username, sessionId);
+      })
       .catch( (err) => console.log('Unknown error when logging in...', err.message));
   }
 
