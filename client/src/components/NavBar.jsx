@@ -9,13 +9,43 @@ export default class MenuExampleSecondary extends Component {
   this.handleItemClick = this.handleItemClick.bind(this);
   this.search = this.search.bind(this);
   this.handleChange = this.handleChange.bind(this);
+  this.logout = this.logout.bind(this);
 }
 
   handleItemClick(e, { name }) {
-    this.setState({ activeItem: name })
-    this.props.changePage(name);
+    if ( name !== 'logout') {
+      this.setState({ activeItem: name })
+      this.props.changePage(name);
+    } else {
+      console.log('logout clicked');
+      this.logout();
+    }
   }
 
+  logout() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include'
+    };
+
+    let url = new URL(`http://localhost:3000/logout`);
+    fetch(url, options)
+      .then( (response) => {
+        console.log('response is...', response.text());
+        console.log('Session id after logout is ...', document.cookie);
+        // return response.text();
+        return document.cookie;
+      })
+      .catch( (err) => console.log('Unknown error when logging out...', err.message));
+
+
+    this.props.logoutUser();
+  }
 
   handleChange(e){
     this.setState({
@@ -24,7 +54,7 @@ export default class MenuExampleSecondary extends Component {
   }
 
   search(){
-    var searchterm = this.state.term; 
+    var searchterm = this.state.term;
     this.props.search(searchterm);
   }
 
