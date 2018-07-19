@@ -49,7 +49,7 @@ app.get('/logout', function(req, res) {
 // input : username,password
 app.get('/user/home/', function(req, res) {
 
-console.log('req.query is ...', req.query)
+// console.log('req.query is ...', req.query)
   let username = req.query.username;
   let password = req.query.password;
   // let logResult = dbHelpers.handleLogin(username, password);
