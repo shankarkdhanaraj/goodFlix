@@ -1,4 +1,5 @@
 var path = require('path');
+const Dotenv = require('dotenv-webpack');
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
@@ -9,6 +10,14 @@ module.exports = {
     path: DIST_DIR,
     filename: 'bundle.js'
   },
+  plugins: [
+    new Dotenv({
+      path: './.env', // load this now instead of the ones in '.env'
+      safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
+      systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
+      silent: true // hide any errors
+    })
+  ],
   module : {
   rules: [{
     test: /\.jsx?/,

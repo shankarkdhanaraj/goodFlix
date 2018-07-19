@@ -36,7 +36,7 @@ export default class Signup extends React.Component {
         }
       })
       .then( (sessionId) => {
-        this.props.loginUser(params.username, sessionId);
+        this.props.loginUser(userPassword.username, sessionId);
       })
       .catch( (err) => console.log('Unknown error when signing up...', err.message));
   }

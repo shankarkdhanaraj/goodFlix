@@ -2,7 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-const PORT = process.env.PORT || 3000;
+require('dotenv').config();
+const PORT = process.env.PORT;// || 3000;
 var dbHelpers = require('../database/helpers.js');
 var apihelper = require('../api/api.js')
 var app = express();
