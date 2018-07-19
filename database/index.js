@@ -14,6 +14,14 @@ if ( process.env.NODE_ENV === 'production' ) {
   mongoUrl = `mongodb://${process.env.DB_SERVER}`;
 }
 
+
+var mongoUrl
+if ( process.env.NODE_ENV === 'production' ) {
+  mongoUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`;
+} else {
+  mongoUrl = `mongodb://${process.env.DB_SERVER}`;
+}
+
 console.log('mongoUrl is...', mongoUrl);
 mongoose.connect(mongoUrl, { useNewUrlParser: true });
 
