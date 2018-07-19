@@ -10,6 +10,7 @@ import WatcherHome from './components/WatcherHome.jsx';
 import Movies from './components/Movies.jsx'
 import MyMovies from './components/MyMovies.jsx'
 import LandingPage from './components/LandingPage.jsx'
+import Watchers from './components/Watchers.jsx'
 
 
 class App extends React.Component {
@@ -63,7 +64,7 @@ class App extends React.Component {
       } else if ( this.state.currentPage === 'My Movies' ) {
         activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
       } else {
-        activePage = <div> Under Construction </div>;
+        activePage = <Watchers/>;
       }
     } else {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
