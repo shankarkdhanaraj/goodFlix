@@ -47,8 +47,9 @@ app.get('/logout', function(req, res) {
 // dbHelpers.getMovieId('Star Wars', (x) => console.log(x))
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
-app.get('/user/home', function(req, res) {
+app.get('/user/home/', function(req, res) {
 
+console.log('req.query is ...', req.query)
   let username = req.query.username;
   let password = req.query.password;
   // let logResult = dbHelpers.handleLogin(username, password);
