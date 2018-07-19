@@ -29,7 +29,7 @@ var currentSession;
 //dbHelpers.getDbMovieInfo('Star Wars', (x) => console.log(x))
 //dbHelpers.addWatchList('jt', 'star wars' (x) => console.log(x))
 //dbHelpers.getMovies((movies) => console.log(movies))
-dbHelpers.saveMovie('Star Wars', (m) => console.log(m))
+//dbHelpers.saveMovie('Star Wars', (m) => console.log(m))
 
 // GET landing page
 app.get('/logout', function(req, res) {
@@ -47,9 +47,8 @@ app.get('/logout', function(req, res) {
 // dbHelpers.getMovieId('Star Wars', (x) => console.log(x))
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
-app.get('/user/home/', function(req, res) {
+app.get('/user/home', function(req, res) {
 
-// console.log('req.query is ...', req.query)
   let username = req.query.username;
   let password = req.query.password;
   // let logResult = dbHelpers.handleLogin(username, password);
