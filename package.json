@@ -23,6 +23,11 @@
   },
   "homepage": "https://github.com/goodFlix/goodFlix#readme",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "css-loader": "^1.0.0",
