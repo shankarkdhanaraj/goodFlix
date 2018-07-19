@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/goodFlix/goodFlix#readme",
   "dependencies": {
+    "ajv": "^6.5.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-class": "^0.3.0",
@@ -50,12 +51,12 @@
     "react-split-pane": "^0.1.82",
     "request": "^2.87.0",
     "semantic-ui-css": "^2.3.3",
-    "semantic-ui-react-less-loader": "^0.2.0",
     "semantic-ui-less": "^2.3.3",
     "semantic-ui-react": "^0.82.0",
+    "semantic-ui-react-less-loader": "^0.2.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
-    "webpack": "^2.7.0",
+    "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8",
     "webpack-command": "^0.4.1"
   }
