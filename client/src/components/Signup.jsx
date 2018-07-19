@@ -22,8 +22,8 @@ export default class Signup extends React.Component {
       body: JSON.stringify(userPassword)
     };
 
-    let url = `http://localhost:3000/users`;
-    fetch(url, options)
+    // let url = `http://localhost:3000/users`;
+    fetch('/users', options)
       .then( (response) => response.text() )
       .then( (responseTxt) => {
         if ( responseTxt === `0` ) {

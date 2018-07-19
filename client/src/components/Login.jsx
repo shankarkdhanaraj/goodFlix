@@ -11,6 +11,10 @@ export default class Login extends React.Component {
 
   login(userPassword) {
     let headers = new Headers();
+    let params = {
+      username: userPassword.username,
+      password: userPassword.password
+    };
     headers.append('Content-Type', 'application/json');
     let options = {
       method: 'GET',
@@ -20,13 +24,19 @@ export default class Login extends React.Component {
       credentials: 'include'
     };
 
-    let url = new URL(`http://localhost:3000/user/home`);
-    let params = {
-      username: userPassword.username,
-      password: userPassword.password
-    };
-    url.search = new URLSearchParams(params)
-    fetch(url, options)
+
+    let esc = encodeURIComponent;
+    let query = Object.keys(params)
+                 .map(k => esc(k) + '=' + esc(params[k]))
+                 .join('&');
+
+    // let url = new URL(`http://localhost:3000/user/home`);
+    // let params = {
+    //   username: userPassword.username,
+    //   password: userPassword.password
+    // };
+    // url.search = new URLSearchParams(params)
+    fetch('/user/home/?' + query, options)
       .then( (response) => response.text() )
       .then( (responseTxt) => {
         if ( responseTxt === `0` ) {
