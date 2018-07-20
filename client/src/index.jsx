@@ -27,6 +27,7 @@ class App extends React.Component {
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true,
       sessionId: null,
+      clickeditem:''
       searchResults: false,
       clickeditem:''
     };
@@ -34,6 +35,9 @@ class App extends React.Component {
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
+    this.search = this.search.bind(this);
+    this.searchByMovie = this.searchByMovie.bind(this);
+    this.getMovie = this.getMovie.bind(this);
     this.displaySearchResults = this.displaySearchResults.bind(this);
     this.search = this.search.bind(this);
     this.searchByMovie = this.searchByMovie.bind(this);
