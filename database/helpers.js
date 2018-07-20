@@ -26,6 +26,18 @@ let addUser = function(userName, password, cb) {
   })
 }
 
+let selectAll = function(callback) {
+  Movie.find({}, function(err, items) {
+    if(err) {
+      console.log('error in selectAll db',err)
+      callback(err, null);
+    } else {
+      console.log('success in selectAll db',items)
+      callback(null, items);
+    }
+  })
+};
+
 let handleLogin = function(userName, password, cb) {
   isUserinDb(userName, password, function(results) {
     //if user doesn't exist
@@ -53,6 +65,7 @@ let isUserinDb = (userName, password, cb) => {
 let getDbMovieInfo = (title, cb) => {
   Movie.find({title: title}, function(err, result) {
     if (err) {console.log(err)};
+    console.log('inside getDbMovieInfo',result);
     cb(result);
   })
 }
@@ -82,6 +95,7 @@ let getMovieInfoAPI = (title, callback) => {
       callback(err,null)
     } else{
       console.log('IVA Request SUCCESS');
+      console.log('response.body',response.body)
       //return the only or closest matched movie
       callback(response.body.ProgramMatches[0]);
     }
@@ -89,7 +103,6 @@ let getMovieInfoAPI = (title, callback) => {
 }
 
 let saveMovie = (movie, cb) => {
-  console.log(movie.Title)
   getDbMovieInfo(movie.Title, (result) => {
     //if movie already in database do nothing;
     console.log('length', result.length)
@@ -110,7 +123,7 @@ let saveMovie = (movie, cb) => {
         ivaRating: movie.IvaRating
       })
       newMovie.save(function(err) {
-        if (err) console.log(err);
+        if (err) {console.log('error in saving in db',err)};
         console.log(movie.Title, 'saved');
         cb(movie.Title)
       })
@@ -158,9 +171,37 @@ let getMovies = (cb) => {
     cb(results)
  })
 }
+const getImagesByPath = (path,callback) => {
+
+    let options = {
+    url: `https://ee.iva-api.com/api/Images/${path}/Redirect?subscription-Key=${config.API_KEY}`,
+    json:true,
+    headers: {
+     'User-Agent': 'request',
+     "Content-Type": "application/json",
+     'Ocp-Apim-Subscription-Key':`${config.API_KEY}`,
+     "Access-Control-Allow-Origin": true
+    }
+  }
+
+  request(options, function(err, response, body){
+  if(err){
+    console.log('error in request2 module',err);
+    callback(err,null)
+  }else{
+    console.log('IVA2 Request SUCCESS');
+    callback(null,response);
+    // var results = body.matches;
+    // callback(null,results);
+  }
+})
+
+}
+
 
 module.exports = {
   addUser: addUser,
+  selectAll:selectAll,
   handleLogin: handleLogin,
   getUser: getUser,
   getDbMovieInfo: getDbMovieInfo,
@@ -169,5 +210,6 @@ module.exports = {
   getMovieId: getMovieId,
   getUsers: getUsers,
   addWatchlist: addWatchlist,
-  getMovies: getMovies
+  getMovies: getMovies,
+  getImagesByPath:getImagesByPath
 }

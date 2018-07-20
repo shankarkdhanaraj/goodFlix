@@ -27,7 +27,7 @@ export default class WatchListItem extends React.Component {
       <List.Item>
         <List.Icon onClick={ () => this.toggleFavorite() } name={this.state.favorite === true ? "heart" : "heart outline"}/>
         <List.Icon onClick={ () => this.removeItem() } name='trash alternate outline' />
-        <List.Content>{this.props.movieName}   </List.Content>
+        <List.Content onClick = {e => {this.props.searchByMovie(e.target.innerHTML); } } >{this.props.movieName}</List.Content>
       </List.Item>
     );
   }

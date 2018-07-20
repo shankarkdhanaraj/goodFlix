@@ -24,7 +24,7 @@ export default class WatchList extends React.Component {
 
   render() {
     const listItems = this.state.list.map( (item, index) => {
-      return (<WatchListItem key={index} movieName={item} remove={this.removeFromWatchlist}/>);
+      return (<WatchListItem search={this.props.search} key={index} movieName={item} remove={this.removeFromWatchlist} getMovie={this.getMovie} searchByMovie={this.props.searchByMovie}/>);
     });
     return (
       <div>
