@@ -11,6 +11,7 @@ import Movies from './components/Movies.jsx';
 import MyMovies from './components/MyMovies.jsx';
 import LandingPage from './components/LandingPage.jsx';
 import Watchers from './components/Watchers.jsx';
+import SearchResults from './components/SearchResults.jsx';
 
 
 
@@ -24,17 +25,23 @@ class App extends React.Component {
       isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true,
-      sessionId: null
+      sessionId: null,
+      searchResults: false,
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
+    this.displaySearchResults = this.displaySearchResults.bind(this);
 
   }
 
   changeCurrentPage(page) {
-    this.setState({currentPage: page});
+    this.setState({currentPage: page, searchResults: false });
+  }
+
+  displaySearchResults() {
+    this.setState({searchResults: true });
   }
 
   search(term){
@@ -59,7 +66,7 @@ class App extends React.Component {
 
   render() {
     let activePage;
-    if ( this.state.isLoggedIn ) {
+    if ( this.state.isLoggedIn && !this.state.searchResults ) {
       if ( this.state.currentPage === 'Home') {
         activePage = <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
       } else if ( this.state.currentPage === 'My Movies' ) {
@@ -67,8 +74,10 @@ class App extends React.Component {
       } else {
         activePage = <Watchers/>;
       }
-    } else {
+    } else if ( !this.state.isLoggedIn  && !this.state.searchResults) {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
+    } else {
+      activePage = <SearchResults/>;
     }
 
     return (
@@ -83,7 +92,7 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-          <NavBar isLoggedIn={this.state.isLoggedIn} changePage={this.changeCurrentPage} search={this.search} logoutUser={this.logoutUser} sessionId={this.state.sessionId}/>
+          <NavBar isLoggedIn={this.state.isLoggedIn} displaySearchResults={this.displaySearchResults} changePage={this.changeCurrentPage} search={this.search} logoutUser={this.logoutUser} sessionId={this.state.sessionId}/>
           </Segment>
           </Grid.Column>
         </Grid.Row>
