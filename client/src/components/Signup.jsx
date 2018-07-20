@@ -11,7 +11,33 @@ export default class Signup extends React.Component {
   }
 
   signup(userPassword) {
-    alert(`Signing up...`);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'POST',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
+      body: JSON.stringify(userPassword)
+    };
+
+    fetch('/users', options)
+      .then( (response) => response.text() )
+      .then( (responseTxt) => {
+        if ( responseTxt === `0` ) {
+          // console.log('Session id is ...', document.cookie);
+          return document.cookie;
+        } else if ( responseTxt === `1` ) { //user doesn't exist
+          throw new Error('User already exists');
+        } else {
+          throw new Error('Unknow error');
+        }
+      })
+      .then( (sessionId) => {
+        this.props.loginUser(userPassword.username, sessionId);
+      })
+      .catch( (err) => console.log('Unknown error when signing up...', err.message));
   }
 
   gotoLogin() {
@@ -29,7 +55,7 @@ export default class Signup extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <UsernamePassword onSubmit={this.signup}/>
+            <UsernamePassword clickSubmit={this.signup}/>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
