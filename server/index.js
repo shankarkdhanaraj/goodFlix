@@ -43,7 +43,7 @@ app.get('/logout', function(req, res) {
   });
 });
 
-// dbHelpers.getMovieId('Star Wars', (x) => console.log(x))
+
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
 app.get('/user/home', function(req, res) {
@@ -104,8 +104,10 @@ app.post('/movies', function(req, res) {
 // API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
 app.get('/movie', function(req, res) {
+
   let title = req.query.title;
   dbHelpers.getDbMovieInfo(title, (result) => {
+
   	//if movie already in database
   	if (result.length == 1) {
   	  //get movie and send
