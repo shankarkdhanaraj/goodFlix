@@ -101,7 +101,7 @@ let saveMovie = (movie, cb) => {
       let newMovie = new Movie({
         _id: new mongoose.Types.ObjectId(),
         title: movie.Title,
-        rating: movie.Releases[0].Certification,
+        //rating: movie.Releases[0].Certification,
         originalReleaseDate: movie.OriginalReleaseDate,
         year: movie.Year,
         contributors: movie.Contributors,
@@ -121,6 +121,7 @@ let saveMovie = (movie, cb) => {
 
 let getMovieId = (title, cb) => {
   getDbMovieInfo(title, (result) => {
+    console.log(result)
     cb(result[0]._id);
   })
 }
@@ -132,16 +133,30 @@ let getUsers = (cb) => {
   })
 }
 
+let getWatchlist = (userName, cb) => {
+  getUser(userName, (result) => {
+    cb(result.watchList)
+
+  })
+}
+
 let addWatchlist = (userName, title, cb) => {
-  getMovieId(title, (id) => {
-    User.findOneAndUpdate({userName: userName}, {watchList: id}, (x) => {
-      cb(x)
+  getWatchlist(userName, (oldList) => {
+    getMovieId(title, (id) => {
+      let list = oldList;
+      list.push(id);
+      User.findOneAndUpdate({userName: userName}, {watchList: list}, () => {
+        cb(userName)
+      })
     })
   })
 }
 
 let getMovies = (cb) => {
-  Movie.find({}, (movies) => cb(movies))
+  Movie.find({}, function(err, results) {
+    if (err) { console.log(err) }
+    cb(results)
+ })
 }
 
 module.exports = {

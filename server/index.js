@@ -26,10 +26,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/dist'));
 
 var currentSession;
-//dbHelpers.getDbMovieInfo('Star Wars', (x) => console.log(x))
-//dbHelpers.addWatchList('jt', 'star wars' (x) => console.log(x))
-//dbHelpers.getMovies((movies) => console.log(movies))
-//dbHelpers.saveMovie('Star Wars', (m) => console.log(m))
+
+dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
+//dbHelpers.getUser('jt', (x) => console.log(x))
 
 // GET landing page
 app.get('/logout', function(req, res) {
@@ -171,6 +170,14 @@ app.get('/user/profile', function(req, res) {
 // input : movie name
 // action : save movie object to favorites table
 app.post('/user/watchlist', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.addWatchlist(userName, movie, (userName) => {
+    dbHelpers.getUser(userName, (user) => {
+      console.log(user)
+      res.send(user)
+    })
+  })
 
 });
 

@@ -1,4 +1,4 @@
 module.exports = {
 
-  API_KEY : '8e97e89696b241678e66bdd004c7abd3'  
+  API_KEY : 'e55978e3a34543879fd13418397833d3'  
 };
