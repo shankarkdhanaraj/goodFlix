@@ -118,12 +118,31 @@ let saveMovie = (movie, cb) => {
   })
 }
 
+
 let getMovieId = (title, cb) => {
   getDbMovieInfo(title, (result) => {
     cb(result[0]._id);
   })
 }
 
+let getUsers = (cb) => {
+  User.find({}, function(err, results) {
+    if (err) {console.log(err)}
+    cb(results)
+  })
+}
+
+let addWatchlist = (userName, title, cb) => {
+  getMovieId(title, (id) => {
+    User.findOneAndUpdate({userName: userName}, {watchList: id}, (x) => {
+      cb(x)
+    })
+  })
+}
+
+let getMovies = (cb) => {
+  Movie.find({}, (movies) => cb(movies))
+}
 
 module.exports = {
   addUser: addUser,
@@ -132,5 +151,8 @@ module.exports = {
   getDbMovieInfo: getDbMovieInfo,
   getMovieInfoAPI: getMovieInfoAPI,
   saveMovie: saveMovie,
-  getMovieId: getMovieId
+  getMovieId: getMovieId,
+  getUsers: getUsers,
+  addWatchlist: addWatchlist,
+  getMovies: getMovies
 }

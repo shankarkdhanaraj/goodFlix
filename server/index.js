@@ -26,10 +26,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client/dist'));
 
 var currentSession;
-
-//dbHelpers.addUser(userName, password, cb)
-//dbHelpers.handleLogin(userName, password, cb)
-
+//dbHelpers.getDbMovieInfo('Star Wars', (x) => console.log(x))
+//dbHelpers.addWatchList('jt', 'star wars' (x) => console.log(x))
+//dbHelpers.getMovies((movies) => console.log(movies))
+dbHelpers.saveMovie('Star Wars', (m) => console.log(m))
 
 // GET landing page
 app.get('/logout', function(req, res) {
@@ -106,15 +106,13 @@ app.post('/movies', function(req, res) {
 // API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
 app.get('/movie', function(req, res) {
-  let title = req.body.title;
-  dbHelpers.getMovieInfoAPI(title, (result) => {
+  let title = req.query.title;
+  dbHelpers.getDbMovieInfo(title, (result) => {
   	//if movie already in database
   	if (result.length == 1) {
   	  //get movie and send
-  	  dbHelpers.getDbMovieInfo(title, (film) => {
-  	  	res.send(film);
-  	  })
-  	  //if movie not in DB..
+      res.send(result);
+    //if movie not in DB..
   	} else {
   	  //get movie info from API...
   	  dbHelpers.getMovieInfoAPI(title, (movie) => {
@@ -196,7 +194,9 @@ app.post('/user/following', function(req, res) {
 
 
 app.get('/users', function(req, res) {
-
+  dbHelpers.getUsers((users) => {
+    res.send(users)
+  })
 });
 
 
