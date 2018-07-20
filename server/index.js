@@ -27,7 +27,7 @@ app.use(express.static('client/dist'));
 
 var currentSession;
 
-dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
+// dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
 //dbHelpers.getUser('jt', (x) => console.log(x))
 
 // GET landing page
