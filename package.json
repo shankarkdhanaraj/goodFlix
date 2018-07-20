@@ -48,6 +48,7 @@
     "properties": "^1.2.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
     "react-split-pane": "^0.1.82",
     "request": "^2.87.0",
     "semantic-ui-css": "^2.3.3",
