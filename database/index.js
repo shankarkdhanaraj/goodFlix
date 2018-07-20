@@ -1,18 +1,13 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const PORT = process.env.PORT;// || 3000;
-// const mongoUrl = `mongodb://localhost/${PORT}`; //check, could be possible error
+//const PORT = process.env.PORT //|| 3000;
+//const mongoUrl = `mongodb://localhost/${PORT}`; //check, could be possible error
 //const mongoUrl = `mongodb://db:helloworld@localhost/${PORT}`
 //const mongoUrl = `mongodb://dbGoodFlix:helloworld1@ds133601.mlab.com:33601/heroku_pn2wqhdh`
 // console.log(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`);
 // const mongoUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`;
 
-var mongoUrl
-if ( process.env.NODE_ENV === 'production' ) {
-  mongoUrl = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`;
-} else {
-  mongoUrl = `mongodb://${process.env.DB_SERVER}`;
-}
+//const mongoUrl = `mongodb://${process.env.DB_SERVER}`;
 
 
 var mongoUrl
@@ -21,6 +16,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 } else {
   mongoUrl = `mongodb://${process.env.DB_SERVER}`;
 }
+
 
 console.log('mongoUrl is...', mongoUrl);
 mongoose.connect(mongoUrl, { useNewUrlParser: true });

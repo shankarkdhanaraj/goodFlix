@@ -27,9 +27,8 @@ app.use(express.static('client/dist'));
 
 var currentSession;
 
-//dbHelpers.addUser(userName, password, cb)
-//dbHelpers.handleLogin(userName, password, cb)
-
+dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
+//dbHelpers.getUser('jt', (x) => console.log(x))
 
 // GET landing page
 app.get('/logout', function(req, res) {
@@ -47,9 +46,8 @@ app.get('/logout', function(req, res) {
 
 //'sign in' button --> GET request to '/user/home' --> mongo query to retrieve that particular user from users table
 // input : username,password
-app.get('/user/home/', function(req, res) {
+app.get('/user/home', function(req, res) {
 
-// console.log('req.query is ...', req.query)
   let username = req.query.username;
   let password = req.query.password;
   // let logResult = dbHelpers.handleLogin(username, password);
@@ -106,13 +104,15 @@ app.post('/movies', function(req, res) {
 // API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
 app.get('/movie', function(req, res) {
-  let title = req.body.title;
-  dbHelpers.getDbMovieInfo(title, (movie) => {
+
+  let title = req.query.title;
+  dbHelpers.getDbMovieInfo(title, (result) => {
+
   	//if movie already in database
-  	if (movie.length == 1) {
+  	if (result.length == 1) {
   	  //get movie and send
-  	  res.send(movie);
-  	//if movie not in DB..
+      res.send(result);
+    //if movie not in DB..
   	} else {
   	  //get movie info from API...
   	  dbHelpers.getMovieInfoAPI(title, (movie) => {
@@ -172,6 +172,14 @@ app.get('/user/profile', function(req, res) {
 // input : movie name
 // action : save movie object to favorites table
 app.post('/user/watchlist', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.addWatchlist(userName, movie, (userName) => {
+    dbHelpers.getUser(userName, (user) => {
+      console.log(user)
+      res.send(user)
+    })
+  })
 
 });
 
@@ -194,7 +202,9 @@ app.post('/user/following', function(req, res) {
 
 
 app.get('/users', function(req, res) {
-
+  dbHelpers.getUsers((users) => {
+    res.send(users)
+  })
 });
 
 

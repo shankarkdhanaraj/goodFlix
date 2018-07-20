@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
-import Login from './Login.jsx'
-import Signup from './Signup.jsx'
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
 import TopMoviesList from './TopMoviesList.jsx';
 
 

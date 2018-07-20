@@ -22,7 +22,11 @@ export default class Signup extends React.Component {
       body: JSON.stringify(userPassword)
     };
 
+<<<<<<< HEAD
     // let url = `http://localhost:3000/users`;
+=======
+    //let url = '/users';
+>>>>>>> DB helper function; changes route for sign in logout
     fetch('/users', options)
       .then( (response) => response.text() )
       .then( (responseTxt) => {
@@ -30,7 +34,7 @@ export default class Signup extends React.Component {
           // console.log('Session id is ...', document.cookie);
           return document.cookie;
         } else if ( responseTxt === `1` ) { //user doesn't exist
-          throw new Error(`User already exists`);
+          throw new Error('User already exists');
         } else {
           throw new Error('Unknow error');
         }

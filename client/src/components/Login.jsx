@@ -3,11 +3,11 @@ import { Grid, Label } from 'semantic-ui-react';
 import UsernamePassword from './UsernamePassword.jsx';
 
 export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.login = this.login.bind(this);
-    this.gotoSignup = this.gotoSignup.bind(this);
-  }
+ constructor(props) {
+   super(props);
+   this.login = this.login.bind(this);
+   this.gotoSignup = this.gotoSignup.bind(this);
+ }
 
   login(userPassword) {
     let headers = new Headers();
@@ -56,30 +56,34 @@ export default class Login extends React.Component {
       .catch( (err) => console.log('Error when logging in...', err.message));
   }
 
-  gotoSignup() {
-    this.props.changeToSignup();
-  }
 
-  render() {
+ gotoSignup() {
+   this.props.changeToSignup();
+ }
 
-    return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <h3>Login</h3>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <UsernamePassword clickSubmit={this.login}/>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <div>No account? <Label as='a' basic onClick={ this.gotoSignup }> Sign up </Label></div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
-  }
+ render() {
+
+   return (
+     <Grid>
+       <Grid.Row>
+         <Grid.Column>
+           <h3>Login</h3>
+         </Grid.Column>
+       </Grid.Row>
+       <Grid.Row>
+         <Grid.Column>
+           <UsernamePassword clickSubmit={this.login}/>
+         </Grid.Column>
+       </Grid.Row>
+       <Grid.Row>
+         <Grid.Column>
+           <div>No account? <Label as='a' basic onClick={ this.gotoSignup }> Sign up </Label></div>
+         </Grid.Column>
+       </Grid.Row>
+     </Grid>
+   );
+ }
 };
+Message Input
+
+Message #rpt07-hello-world

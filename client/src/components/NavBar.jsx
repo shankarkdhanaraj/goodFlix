@@ -33,8 +33,8 @@ export default class MenuExampleSecondary extends Component {
       credentials: 'include'
     };
 
-    let url = new URL(`http://localhost:3000/logout`);
-    fetch(url, options)
+    //let url = new URL('/logout');
+    fetch('/logout', options)
       .then( (response) => {
         console.log('response is...', response.text());
         console.log('Session id after logout is ...', document.cookie);
