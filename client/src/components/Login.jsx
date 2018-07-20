@@ -84,6 +84,3 @@ export default class Login extends React.Component {
    );
  }
 };
-Message Input
-
-Message #rpt07-hello-world
