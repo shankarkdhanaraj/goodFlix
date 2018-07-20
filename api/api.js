@@ -23,7 +23,7 @@ const getMoviesByName = (name,callback) => {
 
   request(options, function(err, response, body){
   if(err){
-    console.log('error in request module');
+    console.log('error in request module',err);
     callback(err,null)
   }else{
     console.log('IVA Request SUCCESS');
@@ -35,5 +35,33 @@ const getMoviesByName = (name,callback) => {
 
 }
 
+const getImagesByPath = (path,callback) => {
+
+    let options = {
+    url: `https://ee.iva-api.com/api/Images/${path}/Redirect?subscription-Key=${config.API_KEY}`,
+    json:true,
+    headers: {
+     'User-Agent': 'request',
+     "Content-Type": "application/json",
+     'Ocp-Apim-Subscription-Key':`${config.API_KEY}`,
+     "Access-Control-Allow-Origin": true
+    }
+  }
+
+  request(options, function(err, response, body){
+  if(err){
+    console.log('error in request2 module',err);
+    callback(err,null)
+  }else{
+    console.log('IVA2 Request SUCCESS');
+    callback(null,response);
+    // var results = body.matches;
+    // callback(null,results);
+  }
+})
+
+}
+
 
 module.exports.getMoviesByName = getMoviesByName;
+module.exports.getImagesByPath = getImagesByPath;
