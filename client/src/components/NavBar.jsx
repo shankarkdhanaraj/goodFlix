@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Menu } from 'semantic-ui-react';
+import { Input, Menu, Button } from 'semantic-ui-react';
 
 export default class MenuExampleSecondary extends Component {
   constructor(){
@@ -13,12 +13,12 @@ export default class MenuExampleSecondary extends Component {
 }
 
   handleItemClick(e, { name }) {
-    if ( name !== 'logout') {
-      this.setState({ activeItem: name })
-      this.props.changePage(name);
-    } else {
+    if ( name === 'logout') {
       console.log('logout clicked');
       this.logout();
+    } else {
+      this.setState({ activeItem: name })
+      this.props.changePage(name);
     }
   }
 
@@ -56,6 +56,8 @@ export default class MenuExampleSecondary extends Component {
   search(){
     var searchterm = this.state.term;
     this.props.search(searchterm);
+    this.setState({term: ''});
+    this.props.displaySearchResults();
   }
 
   render() {
@@ -75,8 +77,8 @@ export default class MenuExampleSecondary extends Component {
           {watchers}
           {myMovies}
           <Menu.Menu position='right'>
-          <input type="text" value={this.state.term} onChange={this.handleChange}/>
-          <button onClick={this.search}>Go</button>
+          <Input type="text" value={this.state.term} onChange={this.handleChange}/>
+          <Button onClick={this.search}>Go</Button>
 {/*            <Menu.Item name='logout' active={activeItem === 'logout'} onClick={this.handleItemClick} />;
 */}         {logout}
           </Menu.Menu>
@@ -86,38 +88,11 @@ export default class MenuExampleSecondary extends Component {
         <Menu secondary pointing>
           <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
           <Menu.Menu position='right'>
-          <input type="text" value={this.state.term} onChange={this.handleChange}/>
-          <button onClick={this.search}>Go</button>
+          <Input type="text" value={this.state.term} onChange={this.handleChange}/>
+          <Button onClick={this.search}>Go</Button>
           </Menu.Menu>
         </Menu> ;
     }
     return navBar;
-
-    // const { activeItem } = this.state
-
-    // return (
-    //   <Menu secondary>
-    //     <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
-    //     <Menu.Item
-    //       name='Watchers'
-    //       active={activeItem === 'Watchers'}
-    //       onClick={this.handleItemClick}
-    //     />
-    //     <Menu.Item
-    //       name='My Movies'
-    //       active={activeItem === 'My Movies'}
-    //       onClick={this.handleItemClick}
-    //     />
-    //     <Menu.Menu position='right'>
-    //       <input type="text" value={this.state.term} onChange={this.handleChange}/>
-    //       <button onClick={this.search}>Go</button>
-    //       <Menu.Item
-    //         name='logout'
-    //         active={activeItem === 'logout'}
-    //         onClick={this.handleItemClick}
-    //       />
-    //     </Menu.Menu>
-    //   </Menu>
-    // )
   }
 };

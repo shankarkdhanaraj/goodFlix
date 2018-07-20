@@ -43,6 +43,7 @@
     "install": "^0.12.1",
     "mongoose": "^5.2.4",
     "node": "^10.6.0",
+    "node-bin-setup": "^1.0.6",
     "npm": "^6.1.0",
     "path": "^0.12.7",
     "properties": "^1.2.1",
