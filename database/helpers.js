@@ -139,7 +139,6 @@ let getMovieId = (title, cb) => {
   })
 }
 
-<<<<<<< HEAD
 let getUsers = (cb) => {
   User.find({}, function(err, results) {
     if (err) {console.log(err)}
@@ -211,6 +210,6 @@ module.exports = {
   getMovieId: getMovieId,
   getUsers: getUsers,
   addWatchlist: addWatchlist,
-  getMovies: getMovies
+  getMovies: getMovies,
   getImagesByPath:getImagesByPath
 }
