@@ -27,9 +27,12 @@ app.use(express.static('client/dist'));
 
 var currentSession;
 
+<<<<<<< HEAD
 // dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
 //dbHelpers.getUser('jt', (x) => console.log(x))
 
+=======
+>>>>>>> no changes; commit for rebase
 // GET landing page
 app.get('/logout', function(req, res) {
   // console.log('Logging out/Destroying session...');
