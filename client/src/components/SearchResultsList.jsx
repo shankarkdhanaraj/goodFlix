@@ -24,7 +24,7 @@ export default class SearchResultsList extends React.Component {
 
   render() {
     const listItems = this.state.list.map( (item, index) => {
-      return (<SearchResultsListItem key={index} movieName={item} remove={this.removeFromWatchlist}/>);
+      return (<SearchResultsListItem key={index} movie={item} remove={this.removeFromWatchlist}/>);
     });
     return (
       <div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import SearchResultsList from './SearchResultsList.jsx';
-import Movie from './components/Movie.jsx';
+import Movie from './Movie.jsx';
 
 
 export default class SearchResults extends React.Component {

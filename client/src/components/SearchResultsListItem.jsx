@@ -8,9 +8,9 @@ export default class SearchResultsListItem extends React.Component {
 
     this.state = {
       favorite: true,
-      movie: this.props.review.movie,
-      stars: this.props.review.stars,
-      review: this.props.review.review
+      movie: this.props.movie.movie,
+      stars: this.props.movie.stars,
+      review: this.props.movie.review
     };
     this.toggleFavorite = this.toggleFavorite.bind(this);
     this.removeItem = this.removeItem.bind(this);
