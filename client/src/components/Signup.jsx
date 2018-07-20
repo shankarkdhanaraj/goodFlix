@@ -22,11 +22,6 @@ export default class Signup extends React.Component {
       body: JSON.stringify(userPassword)
     };
 
-<<<<<<< HEAD
-    // let url = `http://localhost:3000/users`;
-=======
-    //let url = '/users';
->>>>>>> DB helper function; changes route for sign in logout
     fetch('/users', options)
       .then( (response) => response.text() )
       .then( (responseTxt) => {
