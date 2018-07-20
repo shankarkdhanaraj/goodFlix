@@ -12,7 +12,7 @@ export default class WatcherHome extends React.Component {
     super(props);
 
     this.state = {
-      watchList: ['Fight Club', 'Tinker Bell', 'Mullholand Drive', 'Dark Crystal', 'The last Unicorn'],
+      watchList: ['Fight Valley', 'Fight, Zatôichi, Fight', 'Fire Fight', 'Diamond Fight', 'Cock Fight'],
       watchedList: ['Terminator', 'Terminator 2: Judgement Day', 'Superman', 'Saving Private Ryan', 'Total Recall'],
       followingList: ['John Doe', 'Jane Doe', 'Emily', 'Jon', 'Pooja', 'Magee', 'Bella', 'Nick', 'Rupa', 'Leslie', 'Joe', 'Shankar']
     }
@@ -25,7 +25,7 @@ export default class WatcherHome extends React.Component {
         <Grid.Row stretched>
           <Grid.Column>
             <Segment>
-              <WatchList list={this.state.watchList} />
+              <WatchList search={this.props.search} list={this.state.watchList} getSearch={this.props.getSearch} searchByMovie={this.props.searchByMovie} />
             </Segment>
             <Segment>
               <WatchedList list={this.state.watchedList} />

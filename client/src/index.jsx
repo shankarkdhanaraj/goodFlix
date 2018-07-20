@@ -14,6 +14,7 @@ import Watchers from './components/Watchers.jsx';
 
 
 
+
 class App extends React.Component {
 
   constructor(props) {
@@ -24,20 +25,26 @@ class App extends React.Component {
       isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true,
-      sessionId: null
+      sessionId: null,
+      clickeditem:''
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
+    this.search = this.search.bind(this);
+    this.searchByMovie = this.searchByMovie.bind(this);
+    this.getMovie = this.getMovie.bind(this);
 
-  }
+}
 
   changeCurrentPage(page) {
     this.setState({currentPage: page});
   }
 
   search(term){
+    var that= this;
+    this.changeCurrentPage('movie');
 
     $.ajax({
       url:'/movies',
@@ -45,8 +52,70 @@ class App extends React.Component {
       data:{search:term}
     }).done(function(data){
       console.log('data has been posted from search',data);
+
+    //   $.ajax({
+    //   url: '/movie', 
+    //   type:'GET',
+    //   success: (movie) => {
+    //     that.setState({
+    //       clickeditem: movie
+    //     })
+    //     console.log('success of getMovie',movie);
+    //   },
+    //   error: (err) => {
+    //     console.log('error in getMovie', err); }
+    // });
     })
 
+  }
+
+  searchByMovie(title){
+    console.log('inside searchByMovie function',title);
+    var that=this;
+    // this.changeCurrentPage('movie');
+    
+    $.ajax({
+      url:'/movie',
+      type:'POST',
+      data:{title:title}
+    }).done(function(data){
+     console.log('data has been posted from search');
+     that.getMovie(data?data[0]:{});
+    //   $.ajax({
+    //   url: '/movie', 
+    //   type:'GET',
+    //   success: (movie) => {
+    //     that.setState({
+    //       clickeditem: movie
+    //     })
+    //     console.log('success of getMovie',movie);
+    //     that.changeCurrentPage('movie');
+    //   },
+    //   error: (err) => {
+    //     console.log('error in getMovie', err); }
+    // });
+    })
+}
+
+  getMovie(targetMovie){ 
+      $.ajax({
+      url: '/movie', 
+      type:'GET',
+      success: (data) => {
+        var clickMovie = data.filter(
+          (val)=>
+          val.title==targetMovie.title
+          );
+        this.setState({
+          clickeditem: clickMovie?clickMovie:{}
+        });
+        this.changeCurrentPage('movie');
+        console.log('state of clickeditem',this.state.clickeditem);
+      },
+      error: (err) => {
+        console.log('error in getMovie', err);
+      }
+    });
   }
 
   loginUser(user, sessionId) {
@@ -61,11 +130,17 @@ class App extends React.Component {
     let activePage;
     if ( this.state.isLoggedIn ) {
       if ( this.state.currentPage === 'Home') {
-        activePage = <WatcherHome userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+        activePage = <WatcherHome search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} />;
+      
       } else if ( this.state.currentPage === 'My Movies' ) {
         activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
-      } else {
-        activePage = <Watchers/>;
+
+      } 
+      else if(this.state.currentPage === 'movie'){
+        activePage = <Movie searchByMovie={this.searchByMovie} getMovie={this.state.clickeditem[0]} />
+      } 
+      else{
+        activePage = <div>Under Construction</div>
       }
     } else {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
@@ -90,7 +165,7 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-            {activePage}
+                  {activePage}
           </Segment>
           </Grid.Column>
         </Grid.Row>

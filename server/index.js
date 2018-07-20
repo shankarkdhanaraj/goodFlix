@@ -95,19 +95,31 @@ app.post('/movies', function(req, res) {
 			res.send(result);
 		}
 	})
-
 });
+
+app.get('/movie',function(req,res){
+  console.log('inside get / movie');
+  dbHelpers.selectAll(function(err,result){
+    if(err){
+      console.log('error in get / movie',err);
+    }else{
+      console.log('result inside get / movie');
+      res.send(result);
+    }
+  })
+})
 
 
 //clicking on movie name in homepage --> GET request to '/movie'  --> mongo query to retrieve details about that particular movie from API
 //input : movie name
 // API : https://ee.iva-api.com/api/Entertainment/Match/?ProgramType=Movie&Title=titanic&subscription-Key=8e97e89696b241678e66bdd004c7abd3
 // Output : Title , Original Release Date , Year , Original Language , Contributers OBJECT(Person Id , Person Name, Character, Job ) , Descriptions OBJECT ( Description ) , Images OBJECT (File Path), Iva Rating
-app.get('/movie', function(req, res) {
 
-  let title = req.query.title;
-  dbHelpers.getDbMovieInfo(title, (result) => {
 
+app.post('/movie', function(req, res) {
+  let title = req.body.title;
+  console.log('movie title inside POST',title);
+  dbHelpers.getMovieInfoAPI(title, (result) => {
   	//if movie already in database
   	if (result.length == 1) {
   	  //get movie and send
@@ -120,7 +132,8 @@ app.get('/movie', function(req, res) {
         dbHelpers.saveMovie(movie, (flick) => {
           //get info from database
           dbHelpers.getDbMovieInfo(flick, (film) => {
-          	res.send(film);
+            console.log('film',film);
+          res.send(film);
           })
         })
   	  })
@@ -206,6 +219,13 @@ app.get('/users', function(req, res) {
     res.send(users)
   })
 });
+
+app.get('/image/:path',function(req,res){
+
+  var path = req.params.path;
+  console.log(path);
+
+})
 
 
 
