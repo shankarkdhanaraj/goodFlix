@@ -18,13 +18,26 @@ export default class Signup extends React.Component {
       headers: headers,
       mode: 'cors',
       cache: 'default',
+      credentials: 'include',
       body: JSON.stringify(userPassword)
     };
 
-    let url = `http://localhost:3000/users`;
-    fetch(url, options)
+    // let url = `http://localhost:3000/users`;
+    fetch('/users', options)
       .then( (response) => response.text() )
-      .then( (value) => alert('value ' + value) )
+      .then( (responseTxt) => {
+        if ( responseTxt === `0` ) {
+          // console.log('Session id is ...', document.cookie);
+          return document.cookie;
+        } else if ( responseTxt === `1` ) { //user doesn't exist
+          throw new Error(`User already exists`);
+        } else {
+          throw new Error('Unknow error');
+        }
+      })
+      .then( (sessionId) => {
+        this.props.loginUser(userPassword.username, sessionId);
+      })
       .catch( (err) => console.log('Unknown error when signing up...', err.message));
   }
 
