@@ -2,20 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import 'semantic-ui-css/semantic.min.css';
-import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react'
+import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import Title from './components/Title.jsx'
 import NavBar from './components/NavBar.jsx';
 import Movie from './components/Movie.jsx';
 import WatcherHome from './components/WatcherHome.jsx';
-<<<<<<< HEAD
-import Movies from './components/Movies.jsx'
-import MyMovies from './components/MyMovies.jsx'
-import LandingPage from './components/LandingPage.jsx'
-import Watchers from './components/Watchers.jsx'
-
 import Movies from './components/Movies.jsx';
 import MyMovies from './components/MyMovies.jsx';
 import LandingPage from './components/LandingPage.jsx';
+import Watchers from './components/Watchers.jsx';
+
 
 
 class App extends React.Component {
