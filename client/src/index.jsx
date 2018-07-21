@@ -48,6 +48,24 @@ class App extends React.Component {
     this.setState({currentPage: page, searchResults: false });
   }
 
+  getImage(path){
+
+    console.log('path inside getImage',path);
+
+  $.ajax({
+      url: '/image', 
+      type:'GET',
+      data:{path:path},
+      success: (data) => {
+        console.log('data from get/image',data)
+      },
+      error: (err) => {
+        console.log('error in getimage', err);
+      }
+    });
+
+}
+
   displaySearchResults() {
     this.setState({searchResults: true });
   }
@@ -147,7 +165,7 @@ class App extends React.Component {
 
       } 
       else if(this.state.currentPage === 'movie'){
-        activePage = <Movie searchByMovie={this.searchByMovie} getMovie={this.state.clickeditem[0]} />
+        activePage = <Movie searchByMovie={this.searchByMovie} getMovie={this.state.clickeditem[0]} getImage={this.getImage} />
       } 
       else{
         activePage = <div>Under Construction</div>

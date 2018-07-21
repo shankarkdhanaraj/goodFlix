@@ -14,26 +14,6 @@ const extra = (
   </a>
 )
 
-// const description = ['Jurassic Park is an American science fiction media franchise centered on a disastrous attempt to create a theme park of cloned dinosaurs. ',
-//   'The dinosaurs escape confinement and terrorize the human characters. It began in 1990 when Universal Pictures and Amblin Entertainment bought the rights to the novel by Michael Crichton before it was even published.'
-// ].join(' ')
-
-// const getImage(path){
-
-//   $.ajax({
-//       url: '/image', 
-//       type:'GET',
-//       data:{path:path},
-//       success: (data) => {
-//         console.log('data from get/image',data)
-//       },
-//       error: (err) => {
-//         console.log('error in getimage', err);
-//       }
-//     });
-
-// }
-
 const Movie = (props) => (
 	<div>
 <Container>
@@ -41,7 +21,7 @@ const Movie = (props) => (
    <Grid.Row>
    		<Grid.Column width={8}>
  		<Card
-    		image='https://lh3.googleusercontent.com/UzPAxi3D59OAIPn7ax-Le3Hh0jOcnMAlbqE-P6626qvdtJE2VEt1d1dJSi1h4AID0fwM=w200-h300'
+        image={'https://ee.iva-api.com/api/Images/'+props.getMovie.images[0].FilePath+'/Redirect?subscription-Key=e55978e3a34543879fd13418397833d3'}
     		header={props.getMovie.title}
     		extra={extra}/>
     	</Grid.Column>
