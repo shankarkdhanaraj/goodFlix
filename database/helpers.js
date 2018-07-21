@@ -283,11 +283,9 @@ module.exports = {
 
   getMovieTitleFromId: getMovieTitleFromId,
   deleteWatchlist: deleteWatchlist,
-<<<<<<< HEAD
 
-=======
   getWatchedlist: getWatchedlist,
   addWatchedlist: addWatchedlist,
   deleteWatchedlist: deleteWatchedlist
->>>>>>> (feat) user/watchlist endpoints completed
+
 }
