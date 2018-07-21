@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import SearchResultsList from './SearchResultsList.jsx';
 import Movie from './Movie.jsx';
+import MovieProfile from './MovieProfile.jsx';
+
 
 
 export default class SearchResults extends React.Component {
@@ -37,7 +39,7 @@ export default class SearchResults extends React.Component {
                 <Grid.Column>
                   <Grid.Row>
                     <Segment>
-                      <Movie/>
+                      <MovieProfile/>
                     </Segment>
                   </Grid.Row>
                 </Grid.Column>
