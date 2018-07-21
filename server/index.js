@@ -27,9 +27,6 @@ app.use(express.static('client/dist'));
 
 var currentSession;
 
-// dbHelpers.addWatchlist('jt', 'E.T. the Extra-Terrestrial', (val) => console.log(val))
-//dbHelpers.getUser('jt', (x) => console.log(x))
-
 // GET landing page
 app.get('/logout', function(req, res) {
   // console.log('Logging out/Destroying session...');
@@ -142,6 +139,13 @@ app.post('/movie', function(req, res) {
 
 });
 
+app.get('/movie/title', function(req, res) {
+  let id = req.query.id;
+  dbHelpers.getMovieTitleFromId(id, (title) => {
+    res.send(title)
+  })
+})
+
 
 
 // clicking on register button --> POST request to '/users' --> mongo query to create a new watcher in db
@@ -187,25 +191,45 @@ app.get('/user/profile', function(req, res) {
 app.post('/user/watchlist', function(req, res) {
   var userName = req.body.userName;
   var movie = req.body.movie;
-  dbHelpers.addWatchlist(userName, movie, (userName) => {
-    dbHelpers.getUser(userName, (user) => {
-      console.log(user)
-      res.send(user)
-    })
+  dbHelpers.addWatchlist(userName, movie, (watchList) => {
+    cb(watchList)
   })
 
 });
 
 app.delete('/user/watchlist', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.deleteWatchlist(userName, movie, (watchList) => {
+    cb(watchList)
+  })
 
 });
 
+app.get('/user/watchlist', function(req, res) {
+  var id = req.body.id;
+  dbHelpers.getMovieTitleFromId(id, (title) => {
+    cb(title)
+  })
+})
 
 // clicking on 'Mark as watched' near a movie --> POST request to '/user/watchedlist' --> mongo query to add that movie to "Recently Watched" table
 // input : movie name
 // action : save in Recently Watched table
 app.post('/user/watchedlist', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.addWatchedlist(userName, movie, (watchedList) => {
+    cb(watchedList)
+  })
+});
 
+app.delete('/user/watchedlist', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.deleteWatchedlist(userName, movie, (watchedList) => {
+    cb(watchedList)
+  })
 });
 
 // clicking on Heart near a watcher in watchers tab --> POST request to 'user/following' --> mongo query to add that watcher onto our "following" table

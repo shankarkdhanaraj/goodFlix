@@ -153,13 +153,81 @@ let getWatchlist = (userName, cb) => {
   })
 }
 
+let getWatchedlist = (userName, cb) => {
+  getUser(userName, (result) => {
+    cb(result.recentlyWatched)
+  })
+}
+
+let getMovieTitleFromId = (id, cb) => {
+
+    Movie.find({_id: id}, function(err, movie) {
+      if (err) {console.log(err)}
+      cb(movie[0].title)
+    })
+}
+
 let addWatchlist = (userName, title, cb) => {
-  getWatchlist(userName, (oldList) => {
+  getWatchlist(userName, (oldWatchList) => {
     getMovieId(title, (id) => {
-      let list = oldList;
+      let list = oldWatchList;
       list.push(id);
-      User.findOneAndUpdate({userName: userName}, {watchList: list}, () => {
-        cb(userName)
+      User.findOneAndUpdate({userName: userName}, {watchList: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getWatchlist(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let deleteWatchlist = (userName, title, cb) => {
+  getWatchlist(userName, (oldWatchList) => {
+    getMovieId(title, (id) => {
+      let list = oldWatchList;
+      let index = list.indexOf(id);
+      if (index > -1) {
+        list.splice(index, 1);
+      }
+      User.findOneAndUpdate({userName: userName}, {watchList: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getWatchlist(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let addWatchedlist = (userName, title, cb) => {
+  getWatchedlist(userName, (oldWatchedList) => {
+    getMovieId(title, (id) => {
+      let list = oldWatchedList;
+      list.push(id);
+      User.findOneAndUpdate({userName: userName}, {recentlyWatched: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getWatchedlist(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let deleteWatchedlist = (userName, title, cb) => {
+  getWatchedlist(userName, (oldWatchedList) => {
+    getMovieId(title, (id) => {
+      let list = oldWatchList;
+      let index = list.indexOf(id);
+      if (index > -1) {
+        list.splice(index, 1);
+      }
+      User.findOneAndUpdate({userName: userName}, {recentlyWatched: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getWatchedlist(userName, (newList) => {
+          cb(newList)
+        })
       })
     })
   })
@@ -211,5 +279,13 @@ module.exports = {
   getUsers: getUsers,
   addWatchlist: addWatchlist,
   getMovies: getMovies,
-  getImagesByPath:getImagesByPath
+  getImagesByPath:getImagesByPath,
+
+  getMovieTitleFromId: getMovieTitleFromId,
+  deleteWatchlist: deleteWatchlist,
+
+  getWatchedlist: getWatchedlist,
+  addWatchedlist: addWatchedlist,
+  deleteWatchedlist: deleteWatchedlist
+
 }
