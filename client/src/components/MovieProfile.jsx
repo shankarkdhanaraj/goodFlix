@@ -83,6 +83,7 @@ export default class MovieProfile extends React.Component{
   }
 
   render() {
+    let img = 'https://ee.iva-api.com/api/Images/'+`${this.props.movie.images[0].FilePath}`+'/Redirect?subscription-Key=e55978e3a34543879fd13418397833d3'
     let title = '';
     let castAndCrew = '';
     let description = '';
@@ -116,12 +117,11 @@ export default class MovieProfile extends React.Component{
           <Grid>
             <Grid.Row>
               <Grid.Column width={8}>
-                <Card>
-                  <Image src='https://lh3.googleusercontent.com/UzPAxi3D59OAIPn7ax-Le3Hh0jOcnMAlbqE-P6626qvdtJE2VEt1d1dJSi1h4AID0fwM=w200-h300' />
-                  <Card.Content header={title} />
+                <Card
+                  image = {img}
+                  header={title} />
                   <Card.Content> {rating} </Card.Content>
                   {watchlist}
-                </Card>
               </Grid.Column>
               <Grid.Column width={8}>
                 <Card>
