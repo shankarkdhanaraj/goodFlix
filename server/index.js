@@ -185,8 +185,9 @@ app.get('/user/profile', function(req, res) {
 
 
 // clicking on 'Add to Watchlist' near a movie ---> POST request to '/user/watchlist' --> mongo query to add that movie onto our  watch list table
-// input : movie name
+// input : user name, movie name
 // action : save movie object to favorites table
+// response ; send back array of users watch list (movie ids)
 app.post('/user/watchlist', function(req, res) {
   var userName = req.body.userName;
   var movie = req.body.movie;
@@ -197,24 +198,26 @@ app.post('/user/watchlist', function(req, res) {
 });
 
 app.delete('/user/watchlist', function(req, res) {
-  var userName = req.body.userName;
-  var movie = req.body.movie;
+  var userName = req.query.userName;
+  var movie = req.query.movie;
   dbHelpers.deleteWatchlist(userName, movie, (watchList) => {
     cb(watchList)
   })
 
 });
 
-app.get('/user/watchlist', function(req, res) {
-  var id = req.body.id;
+//given movie id, get back movie title from database
+app.get('/movieTitle', function(req, res) {
+  var id = req.query.id;
   dbHelpers.getMovieTitleFromId(id, (title) => {
     cb(title)
   })
 })
 
 // clicking on 'Mark as watched' near a movie --> POST request to '/user/watchedlist' --> mongo query to add that movie to "Recently Watched" table
-// input : movie name
+// input : user name, movie name
 // action : save in Recently Watched table
+// response ; send back array of users recently watched (movie ids)
 app.post('/user/watchedlist', function(req, res) {
   var userName = req.body.userName;
   var movie = req.body.movie;
@@ -223,13 +226,23 @@ app.post('/user/watchedlist', function(req, res) {
   })
 });
 
+// input : user name, movie name
+// action : delete from Recently Watched table
+// response ; send back array of users recently watched (ids)
 app.delete('/user/watchedlist', function(req, res) {
-  var userName = req.body.userName;
-  var movie = req.body.movie;
+  var userName = req.query.userName;
+  var movie = req.query.movie;
   dbHelpers.deleteWatchedlist(userName, movie, (watchedList) => {
     cb(watchedList)
   })
 });
+
+app.post('/user/favorites', function(req, res) {
+  var userName = req.body.userName;
+  dbHelpers.getMovieTitleFromId(id, (title) => {
+    cb(title)
+  })
+})
 
 // clicking on Heart near a watcher in watchers tab --> POST request to 'user/following' --> mongo query to add that watcher onto our "following" table
 app.post('/user/following', function(req, res) {
