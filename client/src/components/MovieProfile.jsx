@@ -39,7 +39,7 @@ export default class MovieProfile extends React.Component{
                   extra={extra}/>
               </Grid.Column>
               <Grid.Column width={8}>
-                <Item/>
+                <h3> Movie Descrition goes here </h3>
               </Grid.Column>
             </Grid.Row>
 
