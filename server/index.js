@@ -334,7 +334,7 @@ app.get('user/following', function(req, res) {
 
 //get a list of all users
 app.get('/users', function(req, res) {
-  console.log('here in users')
+  console.log('here in GET users')
   dbHelpers.getUsers((users) => {
     res.send(users)
   })

@@ -22,6 +22,7 @@ export default class WatcherHome extends React.Component {
 
 
   render() {
+    debugger;
     return (
       <Grid columns={2} divided>
         <Grid.Row stretched>
@@ -35,7 +36,7 @@ export default class WatcherHome extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Segment>
-              <FollowingList list={this.state.followingList} />
+              <FollowingList list={this.props.followingList} listTitle={"Following"} />
             </Segment>
           </Grid.Column>
         </Grid.Row>

@@ -25,6 +25,7 @@ class App extends React.Component {
       userName: null,
       userWatchList: [],
       userFavoriteList: [],
+      watchers: [],
       isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true,
@@ -46,6 +47,7 @@ class App extends React.Component {
     this.searchByMovie = this.searchByMovie.bind(this);
     this.getMovie = this.getMovie.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
+    this.getAllUsers = this.getAllUsers.bind(this);
 
   }
 
@@ -58,6 +60,9 @@ class App extends React.Component {
 
     this.getUserInfo(this.state.userName, this.state.sessionId);
     this.setState({currentPage: page, isSearchResults: false });
+    if ( page === 'Watchers' || page == 'Home') {
+      this.getAllUsers();
+    }
   }
 
   getImage(path){
@@ -165,8 +170,36 @@ class App extends React.Component {
     // this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false});
   }
 
+  getAllUsers() {
+
+  console.log('getAllUSers called');
+  let that = this;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include'
+    };
+
+    fetch('/users', options)
+      .then( (response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then( (responseObj) => {
+        that.setState({watchers: responseObj})
+        console.log('response from GET /users is...', responseObj)
+      })
+      .catch( (err) => console.log('Error getting user info...', err.message));
+
+  }
+
   getUserInfo(user, sessionId) {
 
+    this.getAllUsers();
     if ( user === undefined ) { alert('userName is undefined') }
     console.log('getUserInfo called');
     let that = this;
@@ -213,9 +246,11 @@ class App extends React.Component {
 
   render() {
     let activePage;
+
     if ( this.state.isLoggedIn && !this.state.isSearchResults ) {
       if ( this.state.currentPage === 'Home') {
-        activePage = <WatcherHome search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} watchList={this.state.userWatchList} />;
+        debugger;
+        activePage = <WatcherHome followingList={this.state.watchers} search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} watchList={this.state.userWatchList} />;
 
       } else if ( this.state.currentPage === 'My Movies' ) {
         activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} watchList={this.state.userWatchList} />;
@@ -226,7 +261,7 @@ class App extends React.Component {
       }
 
       else{
-        activePage = <Watchers/>;
+        activePage = <Watchers watchers={this.state.watchers} />;
       }
     } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;

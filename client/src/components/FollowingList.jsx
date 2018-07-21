@@ -23,12 +23,13 @@ export default class FollowingList extends React.Component {
   }
 
   render() {
-    const listItems = this.state.list.map( (item, index) => {
-      return (<FollowingListItem key={index} userName={item} />);
+    debugger;
+    const listItems = this.props.list.map( (user, index) => {
+      return (<FollowingListItem key={index} userName={user.userName} />);
     });
     return (
       <div>
-        <h3>Watchers</h3>
+        <h3>{this.props.listTitle}</h3>
         <List celled>
           {listItems}
         </List>

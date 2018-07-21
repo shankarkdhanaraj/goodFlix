@@ -31,7 +31,7 @@ export default class Watchers extends React.Component {
         <Grid.Row stretched>
           <Grid.Column>
             <Segment>
-              <FollowingList list={this.state.followingList} />
+              <FollowingList list={this.props.watchers} listTitle={"Watchers"}/>
             </Segment>
           </Grid.Column>
           <Grid.Column>
