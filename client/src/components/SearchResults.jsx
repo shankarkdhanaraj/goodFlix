@@ -20,17 +20,40 @@ export default class SearchResults extends React.Component {
         {movie: 'Saving Private Ryan', stars: 5, review: 'Fantastic!!! Must see'},
         {movie: 'Total Recall', stars: 4, review: 'Classic!!!'}
       ]
-    }
+    };
+
+    this.getClickedMovieInfo = this.getClickedMovieInfo.bind(this);
 
   }
 
+  getClickedMovieInfo(movie) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = {
+      method: 'POST',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
+      body: JSON.stringify({title:movie})
+    };
+
+    fetch('/movie', options)
+      .then( (response) => response.json() )
+      .then( (responseObject) => {
+        console.log('response for movie...', responseObject[0]);
+        this.setState({selectedMovie:responseObject[0]});
+      });
+  }
+
   render() {
+
     return (
       <Grid columns={2} divided>
         <Grid.Row stretched>
           <Grid.Column>
             <Segment>
-              <SearchResultsList list={this.state.searchResults} />
+              <SearchResultsList list={this.props.searchResults} isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} getClickedMovieInfo={this.getClickedMovieInfo}/>
             </Segment>
           </Grid.Column>
           <Grid.Column>
@@ -39,7 +62,7 @@ export default class SearchResults extends React.Component {
                 <Grid.Column>
                   <Grid.Row>
                     <Segment>
-                      <MovieProfile/>
+                      <MovieProfile isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} movie={this.state.selectedMovie} />
                     </Segment>
                   </Grid.Row>
                 </Grid.Column>
