@@ -32,7 +32,8 @@ class App extends React.Component {
       clickeditem:'',
       isSearchResults: false,
       searchResults: '',
-      clickeditem:''
+      clickeditem:'',
+      users: []
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
@@ -45,13 +46,13 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.searchByMovie = this.searchByMovie.bind(this);
     this.getMovie = this.getMovie.bind(this);
+    this.getAllUsers = this.getAllUsers.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
 
   }
 
-
-  componentDidMount() {
-    // this.getUserInfo();
+  ComponentDidMount() {
+    this.getAllUsers();
   }
 
   changeCurrentPage(page) {
@@ -210,6 +211,25 @@ class App extends React.Component {
   logoutUser() {
     this.setState({sessionId: null, userName: null, isLoggedIn: false, isLogin: true});
   }
+  
+  getAllUsers() {
+    console.log('hi')
+    $.ajax({
+      url: '/users',
+      type:'GET',
+      success: (data) => {
+        console.log(data)
+      //   this.setState({
+      //     clickeditem: clickMovie?clickMovie:{}
+      //   });
+      //   this.changeCurrentPage('movie');
+      //   console.log('state of clickeditem',this.state.clickeditem);
+      },
+      error: (err) => {
+        console.log('error in getAllUsers', err);
+      }
+    });
+  };
 
   render() {
     let activePage;
