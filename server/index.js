@@ -182,8 +182,6 @@ app.get('/user/profile', function(req, res) {
   // console.log('Inside the get /user/profile..request is. ', req.query);
   // console.log('Inside the get /user/profile..username is. ', userName);
 
-  let userName = req.query.userName;
-
   //get user info if in database
   dbHelpers.getUser(userName, (result) => {res.send(result)});
 });
@@ -237,14 +235,18 @@ app.get('/movieTitles', function(req, res) {
   var ids = req.query.ids;
   console.log('ids from GET /movieTitles...', ids);
   // var resolve = (title) => title;
-  let allMovieTitles = ids.map( id => {
-    var getTitle = new Promise(resolve => {
-      dbHelpers.getMovieTitleFromId(id, resolve);
-    })
-    return getTitle;
-  });
+  if (ids.length > 0) {
+    let allMovieTitles = ids.map( id => {
+      var getTitle = new Promise(resolve => {
+        dbHelpers.getMovieTitleFromId(id, resolve);
+      })
+      return getTitle;
+    });
 
-  Promise.all(allMovieTitles).then( movieTitles => {console.log('all movie titles for ids..', movieTitles); res.send(movieTitles)});
+    Promise.all(allMovieTitles).then( movieTitles => {console.log('all movie titles for ids..', movieTitles); res.send(movieTitles)});
+  } else {
+    res.send([])
+  }
 });
 
 // clicking on 'Mark as watched' near a movie --> POST request to '/user/watchedlist' --> mongo query to add that movie to "Recently Watched" table
