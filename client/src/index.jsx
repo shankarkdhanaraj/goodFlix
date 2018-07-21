@@ -49,7 +49,14 @@ class App extends React.Component {
 
   }
 
+
+  componentDidMount() {
+    // this.getUserInfo();
+  }
+
   changeCurrentPage(page) {
+
+    this.getUserInfo(this.state.userName, this.state.sessionId);
     this.setState({currentPage: page, isSearchResults: false });
   }
 
@@ -154,14 +161,19 @@ class App extends React.Component {
   }
 
   loginUser(user, sessionId) {
-    this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false});
+    this.getUserInfo(user, sessionId);
+    // this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false});
   }
 
-  getUserInfo() {
-    if ( this.state.isLoggedIn ) {
+  getUserInfo(user, sessionId) {
+
+    if ( user === undefined ) { alert('userName is undefined') }
+    console.log('getUserInfo called');
+    let that = this;
+    // if ( this.state.isLoggedIn ) {
       let headers = new Headers();
       let params = {
-        username: this.state.userName
+        username: user
       };
       headers.append('Content-Type', 'application/json');
       let options = {
@@ -180,13 +192,19 @@ class App extends React.Component {
       fetch('/user/profile/?' + query, options)
         .then( (response) => response.json() )
         .then( (responseObj) => {
-          console.log('user profile is...', JSON.stringify(responseObj));
+          let watchListMovieIds = responseObj.watchList;
+          console.log('user watchlist is ...', responseObj.watchList);
+          query = watchListMovieIds
+                       .map(id => ('ids[]=' + id))
+                       .join('&');
+          console.log(' get user info query is...', query);
+          return fetch('/movieTitles?' + query, options);
         })
-        .then( (sessionId) => {
-          this.props.loginUser(params.username, sessionId);
-        })
-        .catch( (err) => console.log('Error getting user info...', err.message));
-    }
+        .then( response => response.json() )
+        .then( responseObj => that.setState({userWatchList: responseObj}) )
+        .catch( (err) => console.log('Error getting user info...', err.message))
+        .finally( () => this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false}) );
+    // }
   }
 
   logoutUser() {
@@ -197,10 +215,10 @@ class App extends React.Component {
     let activePage;
     if ( this.state.isLoggedIn && !this.state.isSearchResults ) {
       if ( this.state.currentPage === 'Home') {
-        activePage = <WatcherHome search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} />;
+        activePage = <WatcherHome search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} watchList={this.state.userWatchList} />;
 
       } else if ( this.state.currentPage === 'My Movies' ) {
-        activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
+        activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} watchList={this.state.userWatchList} />;
 
       }
       else if(this.state.currentPage === 'movie'){
