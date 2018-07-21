@@ -28,7 +28,7 @@ export default class FollowingList extends React.Component {
     });
     return (
       <div>
-        <h3>Following</h3>
+        <h3>Watchers</h3>
         <List celled>
           {listItems}
         </List>
