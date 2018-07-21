@@ -173,7 +173,7 @@ class App extends React.Component {
       }
 
       else{
-        activePage = <div>Under Construction</div>
+        activePage = <Watchers/>;
       }
     } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
