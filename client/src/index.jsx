@@ -169,7 +169,6 @@ class App extends React.Component {
 
       }
       else if(this.state.currentPage === 'movie'){
-
         activePage = <MovieProfile isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} movie={this.state.clickeditem[0]}  />;
       }
 
@@ -179,7 +178,6 @@ class App extends React.Component {
     } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
     } else {
-
       activePage = <SearchResults searchResults={this.state.searchResults} isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>;
     }
 
