@@ -178,9 +178,12 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-  let userName = req.body.userName;
+  // let userName = req.body.userName;
+  let userName = req.query.username;
+  // console.log('Inside the get /user/profile..request is. ', req.query);
+  // console.log('Inside the get /user/profile..username is. ', userName);
   //get user info if in database
-  dbHelpers.getUser(userName, (result) => {res.send(result)})
+  dbHelpers.getUser(userName, (result) => {res.send(result)});
 });
 
 
