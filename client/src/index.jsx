@@ -6,6 +6,7 @@ import { Button, Container, Divider, Grid, Header, Image, Segment } from 'semant
 import Title from './components/Title.jsx'
 import NavBar from './components/NavBar.jsx';
 import Movie from './components/Movie.jsx';
+import MovieProfile from './components/MovieProfile.jsx';
 import WatcherHome from './components/WatcherHome.jsx';
 import MyMovies from './components/MyMovies.jsx';
 import LandingPage from './components/LandingPage.jsx';
@@ -27,7 +28,8 @@ class App extends React.Component {
       isLogin: true,
       sessionId: null,
       clickeditem:'',
-      searchResults: false,
+      isSearchResults: false,
+      searchResults: '',
       clickeditem:''
     };
 
@@ -45,7 +47,7 @@ class App extends React.Component {
 }
 
   changeCurrentPage(page) {
-    this.setState({currentPage: page, searchResults: false });
+    this.setState({currentPage: page, isSearchResults: false });
   }
 
   getImage(path){
@@ -53,7 +55,7 @@ class App extends React.Component {
     console.log('path inside getImage',path);
 
   $.ajax({
-      url: '/image', 
+      url: '/image',
       type:'GET',
       data:{path:path},
       success: (data) => {
@@ -67,22 +69,23 @@ class App extends React.Component {
 }
 
   displaySearchResults() {
-    this.setState({searchResults: true });
+    this.setState({isSearchResults: true });
   }
 
   search(term){
     var that= this;
-    this.changeCurrentPage('movie');
+    // this.changeCurrentPage('movie');
 
     $.ajax({
       url:'/movies',
       type:'POST',
-      data:{search:term}
-    }).done(function(data){
-      console.log('data has been posted from search',data);
+      data:{search: term}
+    }).done( (data) => {
+      console.log('data has been posted from search',data.body.Hits);
+      this.setState({searchResults: data.body.Hits, isSearchResults: true});
 
     //   $.ajax({
-    //   url: '/movie', 
+    //   url: '/movie',
     //   type:'GET',
     //   success: (movie) => {
     //     that.setState({
@@ -101,7 +104,7 @@ class App extends React.Component {
     console.log('inside searchByMovie function',title);
     var that=this;
     // this.changeCurrentPage('movie');
-    
+
     $.ajax({
       url:'/movie',
       type:'POST',
@@ -109,8 +112,9 @@ class App extends React.Component {
     }).done(function(data){
      console.log('data has been posted from search');
      that.getMovie(data?data[0]:{});
+
     //   $.ajax({
-    //   url: '/movie', 
+    //   url: '/movie',
     //   type:'GET',
     //   success: (movie) => {
     //     that.setState({
@@ -125,9 +129,9 @@ class App extends React.Component {
     })
 }
 
-  getMovie(targetMovie){ 
+  getMovie(targetMovie){
       $.ajax({
-      url: '/movie', 
+      url: '/movie',
       type:'GET',
       success: (data) => {
         var clickMovie = data.filter(
@@ -156,25 +160,27 @@ class App extends React.Component {
 
   render() {
     let activePage;
-    if ( this.state.isLoggedIn && !this.state.searchResults ) {
+    if ( this.state.isLoggedIn && !this.state.isSearchResults ) {
       if ( this.state.currentPage === 'Home') {
         activePage = <WatcherHome search={this.search} userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} searchByMovie={this.searchByMovie} />;
-      
+
       } else if ( this.state.currentPage === 'My Movies' ) {
         activePage = <MyMovies userName={this.state.userName} isLoggedIn={this.state.isLoggedIn} />;
 
-      } 
-      else if(this.state.currentPage === 'movie'){
-        activePage = <Movie searchByMovie={this.searchByMovie} getMovie={this.state.clickeditem[0]} getImage={this.getImage} />
-      } 
-      else{
-        activePage = <div>Under Construction</div>
       }
-    } else if ( !this.state.isLoggedIn  && !this.state.searchResults) {
+      else if(this.state.currentPage === 'movie'){
+        activePage = <MovieProfile isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} movie={this.state.clickeditem[0]}  />;
+      }
+
+      else{
+        activePage = <Watchers/>;
+      }
+    } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {
       activePage = <LandingPage isLogin={this.state.isLogin} loginUser={this.loginUser}/>;
     } else {
-      activePage = <SearchResults/>;
+      activePage = <SearchResults searchResults={this.state.searchResults} isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>;
     }
+
 
     return (
       <Grid>

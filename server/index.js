@@ -128,7 +128,7 @@ app.post('/movie', function(req, res) {
         dbHelpers.saveMovie(movie, (flick) => {
           //get info from database
           dbHelpers.getDbMovieInfo(flick, (film) => {
-            console.log('film',film);
+            // console.log('film',film);
           res.send(film);
           })
         })

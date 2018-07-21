@@ -13,6 +13,10 @@ export default class SearchResultsList extends React.Component {
     this.removeFromWatchlist = this.removeFromWatchlist.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ list: this.props.list });
+  }
+
   removeFromWatchlist(item) {
     let list = this.state.list.slice(0);
     let position = list.indexOf(item);
@@ -23,12 +27,12 @@ export default class SearchResultsList extends React.Component {
   }
 
   render() {
-    const listItems = this.state.list.map( (item, index) => {
-      return (<SearchResultsListItem key={index} movie={item} remove={this.removeFromWatchlist}/>);
+    const listItems = this.props.list.map( (item, index) => {
+      return (<SearchResultsListItem key={index} movie={item} remove={this.removeFromWatchlist} isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} getClickedMovieInfo={this.props.getClickedMovieInfo}/>);
     });
     return (
       <div>
-        <h3>Watch List</h3>
+        <h3>Search Results</h3>
         <List celled>
           {listItems}
         </List>

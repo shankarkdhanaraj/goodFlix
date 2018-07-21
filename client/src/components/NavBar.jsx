@@ -55,9 +55,10 @@ export default class MenuExampleSecondary extends Component {
 
   search(){
     var searchterm = this.state.term;
-    this.props.search(searchterm);
     this.setState({term: ''});
-    this.props.displaySearchResults();
+    this.props.search(searchterm);
+
+    // this.props.displaySearchResults();
   }
 
   render() {
@@ -70,17 +71,13 @@ export default class MenuExampleSecondary extends Component {
     if ( this.props.isLoggedIn ) {
       navBar =
         <Menu secondary pointing>
-{/*          <Menu.Item name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick} />
-          <Menu.Item name='Watchers' active={activeItem === 'Watchers'} onClick={this.handleItemClick} />
-          <Menu.Item name='My Movies' active={activeItem === 'My Movies'} onClick={this.handleItemClick} />*/}
           {home}
           {watchers}
           {myMovies}
           <Menu.Menu position='right'>
           <Input type="text" value={this.state.term} onChange={this.handleChange}/>
           <Button onClick={this.search}>Go</Button>
-{/*            <Menu.Item name='logout' active={activeItem === 'logout'} onClick={this.handleItemClick} />;
-*/}         {logout}
+          {logout}
           </Menu.Menu>
         </Menu> ;
     } else {
