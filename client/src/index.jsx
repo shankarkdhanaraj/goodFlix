@@ -32,8 +32,7 @@ class App extends React.Component {
       clickeditem:'',
       isSearchResults: false,
       searchResults: '',
-      clickeditem:'',
-      users: []
+      clickeditem:''
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
@@ -50,17 +49,15 @@ class App extends React.Component {
 
   }
 
-  ComponentDidMount() {
-    this.getAllUsers();
+
+  componentDidMount() {
+    // this.getUserInfo();
   }
 
   changeCurrentPage(page) {
 
     this.getUserInfo(this.state.userName, this.state.sessionId);
     this.setState({currentPage: page, isSearchResults: false });
-    if (page == 'watchers') {
-       this.getAllUsers();
-    }
   }
 
   getImage(path){
@@ -192,7 +189,7 @@ class App extends React.Component {
                    .map(k => esc(k) + '=' + esc(params[k]))
                    .join('&');
       console.log(' get user info query is...', query);
-      fetch('/user/profile?/' + query, options)
+      fetch('/user/profile/?' + query, options)
         .then( (response) => response.json() )
         .then( (responseObj) => {
           let watchListMovieIds = responseObj.watchList;
@@ -213,25 +210,6 @@ class App extends React.Component {
   logoutUser() {
     this.setState({sessionId: null, userName: null, isLoggedIn: false, isLogin: true});
   }
-  
-  getAllUsers() {
-    console.log('hi')
-    $.ajax({
-      url: '/users',
-      type:'GET',
-      success: (data) => {
-        console.log(data)
-      //   this.setState({
-      //     clickeditem: clickMovie?clickMovie:{}
-      //   });
-      //   this.changeCurrentPage('movie');
-      //   console.log('state of clickeditem',this.state.clickeditem);
-      },
-      error: (err) => {
-        console.log('error in getAllUsers', err);
-      }
-    });
-  };
 
   render() {
     let activePage;
@@ -247,7 +225,7 @@ class App extends React.Component {
         activePage = <MovieProfile isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} movie={this.state.clickeditem[0]}  />;
       }
 
-      else if (this.state.currentPage === 'watchers') {
+      else{
         activePage = <Watchers/>;
       }
     } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {

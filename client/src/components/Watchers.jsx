@@ -12,6 +12,7 @@ export default class Watchers extends React.Component {
 
     this.state = {
       selectedUser: '',
+      wathcersList: [],
       followingList: ['John Doe', 'Jane Doe', 'Emily', 'Jon', 'Pooja', 'Magee', 'Bella', 'Nick', 'Rupa', 'Leslie', 'Joe', 'Shankar'],
       selectedUserReviews: [
         {movie: 'Terminator', stars: 3, review: 'Excellent movie...'},
