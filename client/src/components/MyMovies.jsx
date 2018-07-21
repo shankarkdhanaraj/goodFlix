@@ -29,7 +29,7 @@ export default class MyMovies extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Segment>
-              <WatchList list={this.state.watchList} />
+              <WatchList list={this.props.watchList} />
             </Segment>
           </Grid.Column>
           <Grid.Column>

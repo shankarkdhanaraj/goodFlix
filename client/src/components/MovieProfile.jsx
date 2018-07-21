@@ -14,24 +14,72 @@ const extra = (
   </a>
 )
 
-const description = ['Jurassic Park is an American science fiction media franchise centered on a disastrous attempt to create a theme park of cloned dinosaurs. ',
-  'The dinosaurs escape confinement and terrorize the human characters. It began in 1990 when Universal Pictures and Amblin Entertainment bought the rights to the novel by Michael Crichton before it was even published.'
-].join(' ')
-
 export default class MovieProfile extends React.Component{
 
   constructor(props) {
     super(props);
 
     this.state = {
-      watchlist: true
+      watchlist: false
     };
 
     this.toggleWatchList = this.toggleWatchList.bind(this);
   }
 
   toggleWatchList() {
+    let addToWatchlist = !this.state.watchlist;
     this.setState({watchlist: !this.state.watchlist})
+    if (this.props.isLoggedIn) {
+      if ( addToWatchlist ) {
+        let headers = new Headers();
+        let userMovie = {
+          userName: this.props.userName,
+          movie: this.props.movie.title
+        };
+        headers.append('Content-Type', 'application/json');
+        let options = {
+          method: 'POST',
+          headers: headers,
+          mode: 'cors',
+          cache: 'default',
+          credentials: 'include',
+          body: JSON.stringify(userMovie)
+        };
+
+        fetch('/user/watchlist', options)
+          .then( (response) => response.text() )
+          .then( (responseTxt) => {
+            console.log('response from POST to /user/watchlist...', responseTxt);
+          })
+          .catch( (err) => console.log('Unknown error when adding to watchlist...', err.message));
+
+      } else {
+        let headers = new Headers();
+        let userMovie = {
+          userName: this.props.userName,
+          movie: this.props.movie.title
+        };
+        headers.append('Content-Type', 'application/json');
+        let options = {
+          method: 'DELETE',
+          headers: headers,
+          mode: 'cors',
+          cache: 'default',
+          credentials: 'include'
+        };
+        let esc = encodeURIComponent;
+        let query = Object.keys(userMovie)
+                     .map(k => esc(k) + '=' + esc(userMovie[k]))
+                     .join('&');
+
+        fetch('/user/watchlist?' + query, options)
+          .then( (response) => response.text() )
+          .then( (responseTxt) => {
+            console.log('response from POST to /user/watchlist...', responseTxt);
+          })
+          .catch( (err) => console.log('Unknown error when removing from watchlist...', err.message));
+      }
+    }
   }
 
   render() {

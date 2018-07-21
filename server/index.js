@@ -195,7 +195,8 @@ app.post('/user/watchlist', function(req, res) {
   var userName = req.body.userName;
   var movie = req.body.movie;
   dbHelpers.addWatchlist(userName, movie, (watchList) => {
-    cb(watchList)
+    // cb(watchList)
+    res.send('posted to watchList');
   })
 
 });
@@ -203,9 +204,13 @@ app.post('/user/watchlist', function(req, res) {
 app.delete('/user/watchlist', function(req, res) {
   var userName = req.query.userName;
   var movie = req.query.movie;
-  dbHelpers.deleteWatchlist(userName, movie, (watchList) => {
-    cb(watchList)
-  })
+  console.log('in DELETE /user/watchlist....query is...', req.query.userName);
+  if ( userName !== undefined ) {
+    dbHelpers.deleteWatchlist(userName, movie, (watchList) => {
+      // cb(watchList)
+      res.send('deleted from watchList');
+    });
+  }
 
 });
 
@@ -213,9 +218,23 @@ app.delete('/user/watchlist', function(req, res) {
 app.get('/movieTitle', function(req, res) {
   var id = req.query.id;
   dbHelpers.getMovieTitleFromId(id, (title) => {
-    cb(title)
+    res.send(title)
   })
-})
+});
+
+app.get('/movieTitles', function(req, res) {
+  var ids = req.query.ids;
+  console.log('ids from GET /movieTitles...', ids);
+  // var resolve = (title) => title;
+  let allMovieTitles = ids.map( id => {
+    var getTitle = new Promise(resolve => {
+      dbHelpers.getMovieTitleFromId(id, resolve);
+    })
+    return getTitle;
+  });
+
+  Promise.all(allMovieTitles).then( movieTitles => {console.log('all movie titles for ids..', movieTitles); res.send(movieTitles)});
+});
 
 // clicking on 'Mark as watched' near a movie --> POST request to '/user/watchedlist' --> mongo query to add that movie to "Recently Watched" table
 // input : user name, movie name

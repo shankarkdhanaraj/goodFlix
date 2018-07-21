@@ -27,7 +27,7 @@ export default class WatcherHome extends React.Component {
         <Grid.Row stretched>
           <Grid.Column>
             <Segment>
-              <WatchList search={this.props.search} list={this.state.watchList} getSearch={this.props.getSearch} searchByMovie={this.props.searchByMovie} />
+              <WatchList search={this.props.search} list={this.props.watchList} getSearch={this.props.getSearch} searchByMovie={this.props.searchByMovie} userName={this.props.userName} />
             </Segment>
             <Segment>
               <WatchedList list={this.state.watchedList} />

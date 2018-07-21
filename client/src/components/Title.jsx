@@ -11,7 +11,7 @@ const Title = function(props) {
   </div>)
   } else {
   	return (<div>
-    <Header as='h1' onClick={ () => props.getUserInfo()}>
+    <Header as='h1' onClick={ () => props.getUserInfo(props.userName)}>
       <Image src="reel.png" size='large'/>
       Welcome, {props.userName}
     </Header>
