@@ -23,14 +23,23 @@ export default class MovieProfile extends React.Component{
   constructor(props) {
     super(props);
 
+    this.state = {
+      watchlist: true
+    };
+
+    this.toggleWatchList = this.toggleWatchList.bind(this);
   }
 
+  toggleWatchList() {
+    this.setState({watchlist: !this.state.watchlist})
+  }
 
   render() {
     let title = '';
     let castAndCrew = '';
     let description = '';
     let rating = <div></div>;
+    let watchlist = <div></div>;
     if ( this.props.movie !== '' ) {
       title = this.props.movie.title;
       if ( this.props.movie.contributors.length >= 5 ) {
@@ -51,6 +60,7 @@ export default class MovieProfile extends React.Component{
 
     if(this.props.isLoggedIn) {
       rating = <Rating icon='heart' defaultRating={3} maxRating={5} />;
+      watchlist = <Card.Content extra> <Icon color={this.state.watchlist? "teal" : "grey"} size="large" onClick={ () => this.toggleWatchList() } name="eye" /> </Card.Content>;
     }
     return (
       <div>
@@ -62,6 +72,7 @@ export default class MovieProfile extends React.Component{
                   <Image src='https://lh3.googleusercontent.com/UzPAxi3D59OAIPn7ax-Le3Hh0jOcnMAlbqE-P6626qvdtJE2VEt1d1dJSi1h4AID0fwM=w200-h300' />
                   <Card.Content header={title} />
                   <Card.Content> {rating} </Card.Content>
+                  {watchlist}
                 </Card>
               </Grid.Column>
               <Grid.Column width={8}>

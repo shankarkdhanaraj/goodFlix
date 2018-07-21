@@ -23,6 +23,8 @@ class App extends React.Component {
 
     this.state = {
       userName: null,
+      userWatchList: [],
+      userFavoriteList: [],
       isLoggedIn: false,
       currentPage: 'Home', //'Home', 'Watchers', 'My Movies'
       isLogin: true,
@@ -43,8 +45,9 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.searchByMovie = this.searchByMovie.bind(this);
     this.getMovie = this.getMovie.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
 
-}
+  }
 
   changeCurrentPage(page) {
     this.setState({currentPage: page, isSearchResults: false });
@@ -66,7 +69,7 @@ class App extends React.Component {
       }
     });
 
-}
+  }
 
   displaySearchResults() {
     this.setState({isSearchResults: true });
@@ -127,10 +130,10 @@ class App extends React.Component {
     //     console.log('error in getMovie', err); }
     // });
     })
-}
+  }
 
   getMovie(targetMovie){
-      $.ajax({
+    $.ajax({
       url: '/movie',
       type:'GET',
       success: (data) => {
@@ -152,6 +155,38 @@ class App extends React.Component {
 
   loginUser(user, sessionId) {
     this.setState({sessionId: sessionId, userName: user, isLoggedIn: true, isLogin: false});
+  }
+
+  getUserInfo() {
+    if ( this.state.isLoggedIn ) {
+      let headers = new Headers();
+      let params = {
+        username: this.state.userName
+      };
+      headers.append('Content-Type', 'application/json');
+      let options = {
+        method: 'GET',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include'
+      };
+
+      let esc = encodeURIComponent;
+      let query = Object.keys(params)
+                   .map(k => esc(k) + '=' + esc(params[k]))
+                   .join('&');
+      console.log(' get user info query is...', query);
+      fetch('/user/profile/?' + query, options)
+        .then( (response) => response.json() )
+        .then( (responseObj) => {
+          console.log('user profile is...', JSON.stringify(responseObj));
+        })
+        .then( (sessionId) => {
+          this.props.loginUser(params.username, sessionId);
+        })
+        .catch( (err) => console.log('Error getting user info...', err.message));
+    }
   }
 
   logoutUser() {
@@ -187,7 +222,7 @@ class App extends React.Component {
         <Grid.Row >
           <Grid.Column>
           <Segment>
-            <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName}/>
+            <Title isLoggedIn={this.state.isLoggedIn} userName={this.state.userName} getUserInfo={this.getUserInfo} />
           </Segment>
           </Grid.Column>
         </Grid.Row>
