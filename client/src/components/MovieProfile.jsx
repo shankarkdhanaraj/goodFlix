@@ -83,7 +83,17 @@ export default class MovieProfile extends React.Component{
   }
 
   render() {
-    let img = 'https://ee.iva-api.com/api/Images/'+`${this.props.movie.images[0].FilePath}`+'/Redirect?subscription-Key=e55978e3a34543879fd13418397833d3'
+    
+    
+    let img ='https://www.rd.com/wp-content/uploads/2018/02/30_Adorable-Puppy-Pictures-that-Will-Make-You-Melt_124167640_YamabikaY-760x506.jpg'
+    
+    // console.log('this.props.movie  ',this.props.movie);
+
+    // if(this.props.movie.images[0]){
+    // img = 'https://ee.iva-api.com/api/Images/'+`${this.props.movie.images[0].FilePath}`+'/Redirect?subscription-Key=e55978e3a34543879fd13418397833d3'
+
+    // } 
+
     let title = '';
     let castAndCrew = '';
     let description = '';
@@ -91,6 +101,9 @@ export default class MovieProfile extends React.Component{
     let watchlist = <div></div>;
     if ( this.props.movie !== '' ) {
       title = this.props.movie.title;
+      if(this.props.movie.images[0]){
+      img = 'https://ee.iva-api.com/api/Images/'+`${this.props.movie.images[0].FilePath}`+'/Redirect?subscription-Key=e55978e3a34543879fd13418397833d3'
+    }
       if ( this.props.movie.contributors.length >= 5 ) {
         castAndCrew = [];
         castAndCrew.push(`${this.props.movie.contributors[0].PersonName} / ${this.props.movie.contributors[0].Job}`);
