@@ -46,7 +46,6 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.searchByMovie = this.searchByMovie.bind(this);
     this.getMovie = this.getMovie.bind(this);
-    this.getAllUsers = this.getAllUsers.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
 
   }
@@ -59,6 +58,9 @@ class App extends React.Component {
 
     this.getUserInfo(this.state.userName, this.state.sessionId);
     this.setState({currentPage: page, isSearchResults: false });
+    if (page == 'watchers') {
+       this.getAllUsers();
+    }
   }
 
   getImage(path){
@@ -190,7 +192,7 @@ class App extends React.Component {
                    .map(k => esc(k) + '=' + esc(params[k]))
                    .join('&');
       console.log(' get user info query is...', query);
-      fetch('/user/profile/?' + query, options)
+      fetch('/user/profile?/' + query, options)
         .then( (response) => response.json() )
         .then( (responseObj) => {
           let watchListMovieIds = responseObj.watchList;
@@ -245,7 +247,7 @@ class App extends React.Component {
         activePage = <MovieProfile isLoggedIn={this.props.isLoggedIn} userName={this.props.userName} movie={this.state.clickeditem[0]}  />;
       }
 
-      else{
+      else if (this.state.currentPage === 'watchers') {
         activePage = <Watchers/>;
       }
     } else if ( !this.state.isLoggedIn  && !this.state.isSearchResults) {
