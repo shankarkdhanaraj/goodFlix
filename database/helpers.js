@@ -65,7 +65,6 @@ let isUserinDb = (userName, password, cb) => {
 let getDbMovieInfo = (title, cb) => {
   Movie.find({title: title}, function(err, result) {
     if (err) {console.log(err)};
-    console.log('inside getDbMovieInfo',result);
     cb(result);
   })
 }
@@ -95,7 +94,6 @@ let getMovieInfoAPI = (title, callback) => {
       callback(err,null)
     } else{
       console.log('IVA Request SUCCESS');
-      console.log('response.body',response.body)
       //return the only or closest matched movie
       callback(response.body.ProgramMatches[0]);
     }
@@ -257,7 +255,7 @@ const getImagesByPath = (path,callback) => {
     console.log('error in request2 module',err);
     callback(err,null)
   }else{
-    console.log('IVA2 Request SUCCESS');
+    console.log('IVA2 Request SUCCESS',response.body);
     callback(null,response);
     // var results = body.matches;
     // callback(null,results);

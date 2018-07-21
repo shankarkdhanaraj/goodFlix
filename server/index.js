@@ -79,7 +79,6 @@ app.get('/user/home', function(req, res) {
 //Output : Title, Year , Original Language , Runtime , Iva Rating , Official Site Url
 app.post('/movies', function(req, res) {
 
-	console.log('in post',req.body.search);
 
 	var moviename = req.body.search;
 
@@ -244,10 +243,17 @@ app.get('/users', function(req, res) {
   })
 });
 
-app.get('/image/:path',function(req,res){
+app.get('/image',function(req,res){
 
-  var path = req.params.path;
-  console.log(path);
+  var path = req.query.path;
+  console.log('path inside get/image',path);
+  dbHelpers.getImagesByPath(path,function(err,data){
+    if(err){
+      console.log('error inside get/image',err)
+    }else{
+      res.send(data);
+    }
+  })
 
 })
 
