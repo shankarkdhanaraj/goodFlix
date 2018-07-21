@@ -147,13 +147,24 @@ let getUsers = (cb) => {
 let getWatchlist = (userName, cb) => {
   getUser(userName, (result) => {
     cb(result.watchList)
-
   })
 }
 
 let getWatchedlist = (userName, cb) => {
   getUser(userName, (result) => {
     cb(result.recentlyWatched)
+  })
+}
+
+let getFavorites = (userName, cb) => {
+  getUser(userName, (result) => {
+    cb(result.favorites)
+  })
+}
+
+let getFollowing = (userName, cb) => {
+  getUser(userName, (result) => {
+    cb(result.following)
   })
 }
 
@@ -231,12 +242,79 @@ let deleteWatchedlist = (userName, title, cb) => {
   })
 }
 
+let addFavorite = (userName, title, cb) => {
+  getFavorites(userName, (oldFavoritesList) => {
+    getMovieId(title, (id) => {
+      let list = oldFavoritesList;
+      list.push(id);
+      User.findOneAndUpdate({userName: userName}, {favorites: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getFavorites(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let deleteFavorite = (userName, title, cb) => {
+  getFavorites(userName, (oldFavoritesList) => {
+    getMovieId(title, (id) => {
+      let list = oldFavoritesList;
+      let index = list.indexOf(id);
+      if (index > -1) {
+        list.splice(index, 1);
+      }
+      User.findOneAndUpdate({userName: userName}, {favorites: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getFavorites(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let addFollowing = (userName, title, cb) => {
+  getFollowing(userName, (oldFollowingList) => {
+    getMovieId(title, (id) => {
+      let list = oldFollowingList;
+      list.push(id);
+      User.findOneAndUpdate({userName: userName}, {following: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getFollowing(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
+let deleteFollowing = (userName, title, cb) => {
+  getFollowing(userName, (oldFollowingList) => {
+    getMovieId(title, (id) => {
+      let list = oldFollowingList;
+      let index = list.indexOf(id);
+      if (index > -1) {
+        list.splice(index, 1);
+      }
+      User.findOneAndUpdate({userName: userName}, {following: list}, function(err, response) {
+        if (err) {console.log(err)}
+        getFollowing(userName, (newList) => {
+          cb(newList)
+        })
+      })
+    })
+  })
+}
+
 let getMovies = (cb) => {
   Movie.find({}, function(err, results) {
     if (err) { console.log(err) }
     cb(results)
  })
 }
+
 const getImagesByPath = (path,callback) => {
 
     let options = {
@@ -278,12 +356,17 @@ module.exports = {
   addWatchlist: addWatchlist,
   getMovies: getMovies,
   getImagesByPath:getImagesByPath,
-
   getMovieTitleFromId: getMovieTitleFromId,
   deleteWatchlist: deleteWatchlist,
-
+  getWatchlist: getWatchlist,
   getWatchedlist: getWatchedlist,
   addWatchedlist: addWatchedlist,
-  deleteWatchedlist: deleteWatchedlist
+  deleteWatchedlist: deleteWatchedlist,
+  addFavorite: addFavorite,
+  deleteFavorite: deleteFavorite,
+  getFavorites: getFavorites,
+  addFollowing: addFollowing,
+  deleteFollowing: deleteFollowing,
+  getFollowing: getFollowing
 
 }

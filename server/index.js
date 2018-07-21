@@ -178,10 +178,12 @@ app.post('/users', function(req, res) {
 // input : username
 // action : retrieve user's information from user table
 app.get('/user/profile', function(req, res) {
-  // let userName = req.body.userName;
   let userName = req.query.username;
   // console.log('Inside the get /user/profile..request is. ', req.query);
   // console.log('Inside the get /user/profile..username is. ', userName);
+
+  let userName = req.query.userName;
+
   //get user info if in database
   dbHelpers.getUser(userName, (result) => {res.send(result)});
 });
@@ -195,12 +197,14 @@ app.post('/user/watchlist', function(req, res) {
   var userName = req.body.userName;
   var movie = req.body.movie;
   dbHelpers.addWatchlist(userName, movie, (watchList) => {
-    // cb(watchList)
+
     res.send('posted to watchList');
+
   })
 
 });
 
+//delete a movie from user's watch list, and return updated list
 app.delete('/user/watchlist', function(req, res) {
   var userName = req.query.userName;
   var movie = req.query.movie;
@@ -211,8 +215,15 @@ app.delete('/user/watchlist', function(req, res) {
       res.send('deleted from watchList');
     });
   }
-
 });
+
+//get a users watch list
+app.get('user/watchlist', function(req, res) {
+  var userName = req.query.userName;
+  dbHelpers.getWatchlist(userName, (list) => {
+    res.send(list)
+  })
+})
 
 //given movie id, get back movie title from database
 app.get('/movieTitle', function(req, res) {
@@ -259,19 +270,67 @@ app.delete('/user/watchedlist', function(req, res) {
   })
 });
 
+//get user's watchlist
+app.get('user/watchedlist', function(req, res) {
+  var userName = req.query.userName;
+  dbHelpers.getWatchedlist(userName, (list) => {
+    res.send(list)
+  })
+})
+
+//add movie to user's favorite's list
 app.post('/user/favorites', function(req, res) {
   var userName = req.body.userName;
-  dbHelpers.getMovieTitleFromId(id, (title) => {
-    cb(title)
+  var movie = req.body.movie;
+  dbHelpers.addFavorite(userName, movie, (list) => {
+    cb(list)
+  })
+})
+
+//delete movie from user's favorite list
+app.delete('/user/favorites', function(req, res) {
+  var userName = req.query.userName;
+  var movie = req.query.movie;
+  dbHelpers.deleteFavorite(userName, movie, (list) => {
+    cb(list)
+  })
+})
+
+//get a user's list of favorite movies
+app.get('user/favorites', function(req, res) {
+  var userName = req.query.userName;
+  dbHelpers.getFavorites(userName, (list) => {
+    res.send(list)
   })
 })
 
 // clicking on Heart near a watcher in watchers tab --> POST request to 'user/following' --> mongo query to add that watcher onto our "following" table
 app.post('/user/following', function(req, res) {
+  var userName = req.body.userName;
+  var movie = req.body.movie;
+  dbHelpers.addFollowing(userName, movie, (list) => {
+    cb(list)
+  })
+})
 
-});
+//delete movie from user's favorite list
+app.delete('/user/following', function(req, res) {
+  var userName = req.query.userName;
+  var movie = req.query.movie;
+  dbHelpers.deleteFollowing(userName, movie, (list) => {
+    cb(list)
+  })
+})
 
+//get list of user's a particular user is following
+app.get('user/following', function(req, res) {
+  var userName = req.query.userName;
+  dbHelpers.getFollowing(userName, (list) => {
+    res.send(list)
+  })
+})
 
+//get a list of all users
 app.get('/users', function(req, res) {
   dbHelpers.getUsers((users) => {
     res.send(users)
